@@ -118,8 +118,8 @@ boxShadow:"0 2px 10px rgba(0,0,0,0.1)"
 <div
 style={{
 maxWidth:"1200px",
-margin:"30px auto",
-padding:"0 20px"
+margin:"0 auto",
+padding:"10px"
 }}
 >
 
