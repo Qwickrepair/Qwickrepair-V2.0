@@ -184,40 +184,84 @@ We are committed to providing a <b>high-quality, hassle-free, and dependable ser
 </section>
 
 {/* TESTIMONIALS */}
-<section id="TESTIMONIALS">
-  <div class="container">
-    <h2 class="section-title">Testimonials</h2>
-    <p class="section-subtitle">What our happy customers say about Qwickrepair</p>
 
-    <div class="testimonial-grid">
+<div
+style={{
+padding:"60px",
+background:"#f5f5f5",
+textAlign:"center"
+}}
+>
 
-      <div class="card">
-        <div class="stars">★★★★★</div>
-        <p>"Had a major leakage issue, and Qwickrepair responded quickly. Very professional and clean work!"</p>
-        <h4>- Ravi S., Nikoo Homes</h4>
-      </div>
+<h2>Customer Testimonials</h2>
 
-      <div class="card">
-        <div class="stars">★★★★★</div>
-        <p>"Carpentry work was done perfectly. The team was skilled and completed everything on time."</p>
-        <h4>- Priya K., Whitefield</h4>
-      </div>
+<div
+style={{
+display:"grid",
+gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",
+gap:"30px",
+marginTop:"40px"
+}}
+>
 
-      <div class="card">
-        <div class="stars">★★★★★</div>
-        <p>"Electrical issue fixed in one visit. Technician was knowledgeable and very polite."</p>
-        <h4>- Arjun M., Marathahalli</h4>
-      </div>
+<div style={{
+background:"#fff",
+padding:"20px",
+borderRadius:"10px",
+boxShadow:"0 4px 10px rgba(0,0,0,0.1)"
+}}>
+<p>"Very quick plumbing service. Highly recommended!"</p>
+<h4>- Ravi Kumar</h4>
+<p>⭐⭐⭐⭐⭐</p>
+</div>
 
-      <div class="card">
-        <div class="stars">★★★★★</div>
-        <p>"Painting service was excellent. My home looks fresh and beautiful. Highly recommend Qwickrepair!"</p>
-        <h4>- Sneha R., Bangalore</h4>
-      </div>
+<div style={{
+background:"#fff",
+padding:"20px",
+borderRadius:"10px",
+boxShadow:"0 4px 10px rgba(0,0,0,0.1)"
+}}>
+<p>"Electrician was professional and fixed the issue fast."</p>
+<h4>- Priya Sharma</h4>
+<p>⭐⭐⭐⭐⭐</p>
+</div>
 
-    </div>
-  </div>
-</section>
+<div style={{
+background:"#fff",
+padding:"20px",
+borderRadius:"10px",
+boxShadow:"0 4px 10px rgba(0,0,0,0.1)"
+}}>
+<p>"Everything was done to satisfaction within the three days timeand they were very supportive, and the floors were cleaned afterward."</p>
+<h4>- Manoj Kumar B</h4>
+<p>⭐⭐⭐⭐⭐</p>
+</div>
+
+<div style={{
+background:"#fff",
+padding:"20px",
+borderRadius:"10px",
+boxShadow:"0 4px 10px rgba(0,0,0,0.1)"
+}}>
+<p>"The pest control man was very polite and kind. His inspection and treatment in controlling the cockroach problem was really commendable."</p>
+<h4>- Bharat Kunar</h4>
+<p>⭐⭐⭐⭐⭐</p>
+</div>
+
+<div style={{
+background:"#fff",
+padding:"20px",
+borderRadius:"10px",
+boxShadow:"0 4px 10px rgba(0,0,0,0.1)"
+}}>
+<p>"Cleaning service was excellent. Very satisfied."</p>
+<h4>- Arjun Reddy</h4>
+<p>⭐⭐⭐⭐⭐</p>
+</div>
+
+</div>
+
+</div>
 
 {/* BOOKING */}
 <section id="booking" style={{
