@@ -31,9 +31,44 @@ body {
   padding-bottom: 10px;
   scroll-snap-type: x mandatory;
 }
+#testimonials {
+  padding: 30px;
+  background: #f2f2f2;
+  text-align: center;
+}
 
-.testimonial-card {
-  min-width: 280px;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
+.heading {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.testimonial-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.testimonial-box {
+  background: #e6e6e6;
+  border: 1px solid #999;
+  padding: 20px;
+  width: 260px;
+  text-align: center;
+}
+
+.testimonial-box p {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.testimonial-box h4 {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.stars {
+  color: #FFD700; /* gold */
+  font-size: 16px;
 }
