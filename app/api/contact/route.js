@@ -10,6 +10,36 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function parseBoolean(value, defaultValue = false) {
+  if (value == null || value === "") {
+    return defaultValue;
+  }
+
+  return String(value).toLowerCase() === "true";
+}
+
+function createTransportOptions() {
+  const smtpHost = process.env.QWICKREPAIR_SMTP_HOST;
+  const smtpPort = Number(process.env.QWICKREPAIR_SMTP_PORT || 587);
+  const smtpSecure = parseBoolean(process.env.QWICKREPAIR_SMTP_SECURE, smtpPort === 465);
+  const smtpUser = process.env.QWICKREPAIR_SMTP_USER;
+  const smtpPass = process.env.QWICKREPAIR_SMTP_PASS;
+
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    return null;
+  }
+
+  return {
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpSecure,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  };
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -28,13 +58,16 @@ export async function POST(request) {
       );
     }
 
+    const transportOptions = createTransportOptions();
     const smtpUser = process.env.QWICKREPAIR_SMTP_USER;
-    const smtpPass = process.env.QWICKREPAIR_SMTP_PASS;
     const toEmail = process.env.QWICKREPAIR_TO_EMAIL || smtpUser;
+    const fromEmail = process.env.QWICKREPAIR_FROM_EMAIL || smtpUser;
+    const fromName = process.env.QWICKREPAIR_FROM_NAME || "Qwickrepair Solutions";
 
-    if (!smtpUser || !smtpPass || !toEmail) {
+    if (!transportOptions || !toEmail || !fromEmail) {
       return NextResponse.json(
         {
+          code: "EMAIL_UNAVAILABLE",
           error:
             "We are unable to send your request online right now. Please call or WhatsApp Qwickrepair and we will help you directly.",
         },
@@ -42,13 +75,7 @@ export async function POST(request) {
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+    const transporter = nodemailer.createTransport(transportOptions);
 
     const safeName = escapeHtml(name);
     const safeService = escapeHtml(service);
@@ -59,7 +86,7 @@ export async function POST(request) {
     const safeDetails = escapeHtml(details).replaceAll("\n", "<br />");
 
     await transporter.sendMail({
-      from: `"Qwickrepair Solutions" <${smtpUser}>`,
+      from: `"${fromName}" <${fromEmail}>`,
       to: toEmail,
       replyTo: email,
       subject: `[${service}] New quote request from ${name}`,

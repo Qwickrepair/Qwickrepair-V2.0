@@ -58,6 +58,8 @@ const services = [
   { title: "Pest Control", image: "/services/pest-control.jpg" },
 ];
 
+const whatsappNumber = "918880787787";
+
 const iconStyle = {
   width: "30px",
   height: "30px",
@@ -76,6 +78,29 @@ const contactInputStyle = {
   boxShadow: "0 2px 8px rgba(15, 23, 42, 0.04)",
   transition: "border-color 0.2s ease, box-shadow 0.2s ease",
 };
+
+function openWhatsAppFallback(payload) {
+  const message = [
+    "Hello Qwickrepair, I would like to request a service.",
+    "",
+    `Service: ${payload.service || "General Enquiry"}`,
+    `Name: ${payload.name || "Not provided"}`,
+    `Email: ${payload.email || "Not provided"}`,
+    `Phone: ${payload.phone || "Not provided"}`,
+    `Flat/House No.: ${payload.house || "Not provided"}`,
+    `Address: ${payload.address || "Not provided"}`,
+    "",
+    "Details:",
+    payload.details || "Not provided",
+  ].join("\n");
+
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const popup = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
+  if (!popup) {
+    window.location.href = whatsappUrl;
+  }
+}
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -133,6 +158,14 @@ export default function Home() {
       const result = await response.json();
 
       if (!response.ok) {
+        if (result.code === "EMAIL_UNAVAILABLE") {
+          openWhatsAppFallback(payload);
+          form.reset();
+          setSelectedService("General Enquiry");
+          setSubmitMessage("Online email is unavailable, so we opened WhatsApp with your request.");
+          return;
+        }
+
         throw new Error(
           result.error ||
             "We could not send your request right now. Please call or WhatsApp Qwickrepair and we will help you directly."
