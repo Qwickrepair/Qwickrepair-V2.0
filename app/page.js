@@ -106,6 +106,7 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [selectedService, setSelectedService] = useState("General Enquiry");
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
 
@@ -175,6 +176,7 @@ export default function Home() {
       form.reset();
       setSelectedService("General Enquiry");
       setSubmitMessage("Your request has been sent successfully.");
+      setIsBookingOpen(false);
     } catch (error) {
       setSubmitMessage(
         error.message ||
@@ -245,14 +247,103 @@ export default function Home() {
           >
             Testimonials
           </a>
-          <a
-            href="#booking"
-            style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
+          <button
+            type="button"
+            onClick={() => {
+              setSubmitMessage("");
+              setIsBookingOpen(true);
+            }}
+            style={{
+              color: "#1f2937",
+              textDecoration: "none",
+              fontSize: "0.95rem",
+              fontWeight: 700,
+              background: "transparent",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+            }}
           >
             Book Now
-          </a>
+          </button>
         </nav>
       </header>
+
+      {isBookingOpen ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Book a service"
+          onClick={() => setIsBookingOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(15, 23, 42, 0.55)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "20px",
+            zIndex: 200,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "min(100%, 560px)",
+              maxHeight: "90vh",
+              overflowY: "auto",
+              background: "#ffffff",
+              borderRadius: "20px",
+              padding: "26px 22px",
+              boxShadow: "0 24px 60px rgba(15, 23, 42, 0.25)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "12px",
+                marginBottom: "18px",
+              }}
+            >
+              <div>
+                <h3 style={{ margin: 0, color: "#111827" }}>Book a Service</h3>
+                <p style={{ margin: "6px 0 0", color: "#4b5563", lineHeight: 1.5 }}>
+                  Fill in your details and we will get back to you quickly.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsBookingOpen(false)}
+                aria-label="Close booking form"
+                style={{
+                  border: "none",
+                  background: "#f3f4f6",
+                  width: "38px",
+                  height: "38px",
+                  borderRadius: "999px",
+                  cursor: "pointer",
+                  fontSize: "20px",
+                  lineHeight: 1,
+                  color: "#111827",
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <BookingForm
+              sendEmail={sendEmail}
+              services={services}
+              selectedService={selectedService}
+              setSelectedService={setSelectedService}
+              submitMessage={submitMessage}
+              isSubmitting={isSubmitting}
+            />
+          </div>
+        </div>
+      ) : null}
 
       <section style={{ textAlign: "center", padding: "18px 20px 26px" }}>
         <h1
@@ -344,12 +435,13 @@ export default function Home() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 180px), 1fr))",
-            gap: "24px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))",
+            gap: "clamp(14px, 2vw, 24px)",
             marginTop: "40px",
             maxWidth: "1200px",
             marginInline: "auto",
             width: "100%",
+            alignItems: "stretch",
           }}
         >
           {services.map((service) => (
@@ -471,80 +563,14 @@ export default function Home() {
             <div>
               <h3 style={{ marginTop: 0, marginBottom: "18px", color: "#111827" }}>Get a Quote!</h3>
 
-              <form
-                onSubmit={sendEmail}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "18px",
-                  background: "#ffffff",
-                  padding: "8px 0",
-                }}
-              >
-                <select
-                  name="service"
-                  value={selectedService}
-                  onChange={(e) => setSelectedService(e.target.value)}
-                  style={contactInputStyle}
-                >
-                  <option value="General Enquiry">Service Request</option>
-                  {services.map((service) => (
-                    <option key={service.title} value={service.title}>
-                      {service.title}
-                    </option>
-                  ))}
-                </select>
-
-                <input name="name" placeholder="Name" required style={contactInputStyle} />
-                <input name="email" type="email" placeholder="Email*" required style={contactInputStyle} />
-                <input name="phone" placeholder="Phone: *" required style={contactInputStyle} />
-                <input name="house" placeholder="Flat/House No." style={contactInputStyle} />
-                <input
-                  name="address"
-                  placeholder="Address (Street, City, Zip Code)"
-                  style={contactInputStyle}
-                />
-                <textarea
-                  name="details"
-                  placeholder="Let us know the details of what you are looking for, and we'll contact you with a quote."
-                  rows="7"
-                  style={{ ...contactInputStyle, resize: "vertical", lineHeight: 1.6 }}
-                />
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  style={{
-                    background: "linear-gradient(90deg, #41b9ab 0%, #46b9a7 100%)",
-                    color: "#000",
-                    padding: "13px 24px",
-                    border: "none",
-                    borderRadius: "12px",
-                    fontWeight: 700,
-                    letterSpacing: "0.18em",
-                    cursor: "pointer",
-                    marginTop: "6px",
-                    opacity: isSubmitting ? 0.7 : 1,
-                    boxShadow: "0 14px 28px rgba(65, 185, 171, 0.22)",
-                    alignSelf: "flex-start",
-                    minWidth: "140px",
-                  }}
-                >
-                  {isSubmitting ? "SENDING..." : "SEND"}
-                </button>
-
-                {submitMessage ? (
-                  <p
-                    style={{
-                      margin: 0,
-                      color: submitMessage.includes("successfully") ? "#15847c" : "#b91c1c",
-                      fontSize: "0.95rem",
-                    }}
-                  >
-                    {submitMessage}
-                  </p>
-                ) : null}
-              </form>
+              <BookingForm
+                sendEmail={sendEmail}
+                services={services}
+                selectedService={selectedService}
+                setSelectedService={setSelectedService}
+                submitMessage={submitMessage}
+                isSubmitting={isSubmitting}
+              />
             </div>
 
             <div style={{ paddingTop: "18px" }}>
@@ -650,7 +676,12 @@ function ServiceCard({ title, image, onSelect }) {
     <a
       href="#booking"
       onClick={onSelect}
-      style={{ textDecoration: "none", color: "#000" }}
+      style={{
+        textDecoration: "none",
+        color: "#000",
+        minWidth: 0,
+        width: "100%",
+      }}
     >
       <div
         style={{
@@ -659,17 +690,144 @@ function ServiceCard({ title, image, onSelect }) {
           boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
           background: "#fff",
           textAlign: "center",
-          padding: "20px",
+          padding: "clamp(14px, 2vw, 20px)",
           height: "100%",
+          minWidth: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <div style={{ position: "relative", width: "100%", height: "120px", marginBottom: "10px" }}>
-          <Image src={image} alt={title} fill sizes="200px" style={{ objectFit: "contain" }} />
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            maxWidth: "clamp(84px, 12vw, 150px)",
+            aspectRatio: "1 / 1",
+            marginBottom: "14px",
+          }}
+        >
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="(max-width: 480px) 84px, (max-width: 900px) 110px, 150px"
+            style={{ objectFit: "contain" }}
+          />
         </div>
 
-        <h3>{title}</h3>
-        <p style={{ color: "#09B7A1", fontWeight: "bold", marginBottom: 0 }}>Book Now</p>
+        <h3
+          style={{
+            marginTop: 0,
+            marginBottom: "8px",
+            lineHeight: 1.3,
+            fontSize: "clamp(1rem, 2.1vw, 1.1rem)",
+          }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{
+            color: "#09B7A1",
+            fontWeight: "bold",
+            marginBottom: 0,
+            fontSize: "clamp(0.95rem, 1.8vw, 1rem)",
+          }}
+        >
+          Book Now
+        </p>
       </div>
     </a>
+  );
+}
+
+function BookingForm({
+  sendEmail,
+  services,
+  selectedService,
+  setSelectedService,
+  submitMessage,
+  isSubmitting,
+}) {
+  return (
+    <form
+      onSubmit={sendEmail}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "18px",
+        background: "#ffffff",
+        padding: "8px 0",
+      }}
+    >
+      <input name="name" placeholder="Name" required style={contactInputStyle} />
+      <input name="email" type="email" placeholder="Email*" required style={contactInputStyle} />
+      <input name="phone" placeholder="Phone: *" required style={contactInputStyle} />
+      <input name="house" placeholder="Flat/House No." style={contactInputStyle} />
+      <input
+        name="address"
+        placeholder="Address (Street, City, Zip Code)"
+        style={contactInputStyle}
+      />
+      <select
+        name="service"
+        value={selectedService}
+        onChange={(e) => setSelectedService(e.target.value)}
+        style={contactInputStyle}
+      >
+        <option value="General Enquiry">Service Request</option>
+        {services.map((service) => (
+          <option key={service.title} value={service.title}>
+            {service.title}
+          </option>
+        ))}
+      </select>
+      <textarea
+        name="details"
+        placeholder="Let us know the details of what you are looking for, and we'll contact you with a quote."
+        rows="7"
+        style={{
+          ...contactInputStyle,
+          resize: "vertical",
+          lineHeight: 1.6,
+          fontFamily: "Roboto, Arial, sans-serif",
+          fontSize: "14px",
+        }}
+      />
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        style={{
+          background: "linear-gradient(90deg, #41b9ab 0%, #46b9a7 100%)",
+          color: "#000",
+          padding: "13px 24px",
+          border: "none",
+          borderRadius: "12px",
+          fontWeight: 700,
+          letterSpacing: "0.18em",
+          cursor: "pointer",
+          marginTop: "6px",
+          opacity: isSubmitting ? 0.7 : 1,
+          boxShadow: "0 14px 28px rgba(65, 185, 171, 0.22)",
+          alignSelf: "flex-start",
+          minWidth: "140px",
+        }}
+      >
+        {isSubmitting ? "SENDING..." : "SEND"}
+      </button>
+
+      {submitMessage ? (
+        <p
+          style={{
+            margin: 0,
+            color: submitMessage.includes("successfully") ? "#15847c" : "#b91c1c",
+            fontSize: "0.95rem",
+          }}
+        >
+          {submitMessage}
+        </p>
+      ) : null}
+    </form>
   );
 }
