@@ -1,0 +1,106 @@
+import nodemailer from "nodemailer";
+import { NextResponse } from "next/server";
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    const service = body.service?.trim() || "General Enquiry";
+    const name = body.name?.trim();
+    const email = body.email?.trim();
+    const phone = body.phone?.trim();
+    const house = body.house?.trim() || "Not provided";
+    const address = body.address?.trim() || "Not provided";
+    const details = body.details?.trim() || "Not provided";
+
+    if (!name || !email || !phone) {
+      return NextResponse.json(
+        { error: "Name, email, and phone are required." },
+        { status: 400 }
+      );
+    }
+
+    const smtpUser = process.env.QWICKREPAIR_SMTP_USER;
+    const smtpPass = process.env.QWICKREPAIR_SMTP_PASS;
+    const toEmail = process.env.QWICKREPAIR_TO_EMAIL || smtpUser;
+
+    if (!smtpUser || !smtpPass || !toEmail) {
+      return NextResponse.json(
+        { error: "Email service is not configured yet." },
+        { status: 500 }
+      );
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+
+    const safeName = escapeHtml(name);
+    const safeService = escapeHtml(service);
+    const safeEmail = escapeHtml(email);
+    const safePhone = escapeHtml(phone);
+    const safeHouse = escapeHtml(house);
+    const safeAddress = escapeHtml(address);
+    const safeDetails = escapeHtml(details).replaceAll("\n", "<br />");
+
+    await transporter.sendMail({
+      from: `"Qwickrepair Solutions" <${smtpUser}>`,
+      to: toEmail,
+      replyTo: email,
+      subject: `[${service}] New quote request from ${name}`,
+      text: [
+        "Qwickrepair Solutions has received a new message.",
+        "",
+        `Service Request: ${service}`,
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Phone: ${phone}`,
+        `Flat/House No.: ${house}`,
+        `Address: ${address}`,
+        "",
+        "Details:",
+        details,
+        "",
+        "Reply to this email to respond.",
+      ].join("\n"),
+      html: `
+        <div style="background:#f4f4f4;padding:32px 20px;font-family:Arial,sans-serif;color:#111827;">
+          <div style="max-width:560px;margin:0 auto;background:#ffffff;padding:32px;border-radius:4px;">
+            <h1 style="margin:0 0 28px;font-size:24px;line-height:1.4;">
+              Qwickrepair Solutions<br />has received a new message.
+            </h1>
+
+            <p style="margin:0 0 12px;"><strong>Service Request</strong><br />${safeService}</p>
+            <p style="margin:0 0 12px;"><strong>Name</strong><br />${safeName}</p>
+            <p style="margin:0 0 12px;"><strong>Email</strong><br />${safeEmail}</p>
+            <p style="margin:0 0 12px;"><strong>Phone</strong><br />${safePhone}</p>
+            <p style="margin:0 0 12px;"><strong>Flat/House No.</strong><br />${safeHouse}</p>
+            <p style="margin:0 0 12px;"><strong>Address</strong><br />${safeAddress}</p>
+            <p style="margin:0 0 12px;"><strong>Details</strong><br />${safeDetails}</p>
+
+            <p style="margin:28px 0 0;"><strong>Reply to this email to respond.</strong></p>
+          </div>
+        </div>
+      `,
+    });
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error.message || "Failed to send email." },
+      { status: 500 }
+    );
+  }
+}
