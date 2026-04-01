@@ -133,14 +133,20 @@ export default function Home() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Unable to send your request right now.");
+        throw new Error(
+          result.error ||
+            "We could not send your request right now. Please call or WhatsApp Qwickrepair and we will help you directly."
+        );
       }
 
       form.reset();
       setSelectedService("General Enquiry");
       setSubmitMessage("Your request has been sent successfully.");
     } catch (error) {
-      setSubmitMessage(error.message || "Something went wrong. Please try again.");
+      setSubmitMessage(
+        error.message ||
+          "We could not send your request right now. Please call or WhatsApp Qwickrepair and we will help you directly."
+      );
     } finally {
       setIsSubmitting(false);
     }

@@ -34,7 +34,10 @@ export async function POST(request) {
 
     if (!smtpUser || !smtpPass || !toEmail) {
       return NextResponse.json(
-        { error: "Email service is not configured yet." },
+        {
+          error:
+            "We are unable to send your request online right now. Please call or WhatsApp Qwickrepair and we will help you directly.",
+        },
         { status: 500 }
       );
     }
@@ -99,7 +102,11 @@ export async function POST(request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     return NextResponse.json(
-      { error: error.message || "Failed to send email." },
+      {
+        error:
+          error.message ||
+          "We could not send your request right now. Please call or WhatsApp Qwickrepair and we will help you directly.",
+      },
       { status: 500 }
     );
   }
