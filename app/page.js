@@ -22,30 +22,37 @@ const testimonials = [
   {
     text: "Very quick plumbing service. Highly recommended!",
     name: "Ravi Kumar, Whitefield",
+    age: "2 years ago",
   },
   {
     text: "Electrician was professional and fixed the issue fast.",
     name: "Priya Patel, Kasturinagar",
+    age: "2 years ago",
   },
   {
     text: "Everything was done to satisfaction within three days, and the team was very supportive throughout.",
     name: "Sonita B, Nikoo Homes",
+    age: "2 years ago",
   },
   {
     text: "The service was prompt, clear, and reliable from booking to completion.",
     name: "Kuhu, Kolte Patil Raaga",
+    age: "2 years ago",
   },
   {
     text: "Work was completed neatly and on time, and the staff stayed helpful the whole way.",
     name: "Manoj Kumar B, Nikoo Homes",
+    age: "2 years ago",
   },
   {
     text: "Pest control service was polite, thorough, and effective.",
     name: "Bharat Kumar, Mahadevpura",
+    age: "2 years ago",
   },
   {
     text: "Cleaning service was excellent. Very satisfied.",
     name: "Arjun Reddy, Shobha City",
+    age: "2 years ago",
   },
 ];
 
@@ -68,6 +75,7 @@ const iconStyle = {
 
 const contactInputStyle = {
   width: "100%",
+  boxSizing: "border-box",
   padding: "14px 14px",
   border: "1px solid #d7dee3",
   borderRadius: "14px",
@@ -104,7 +112,6 @@ function openWhatsAppFallback(payload) {
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [selectedService, setSelectedService] = useState("General Enquiry");
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -121,14 +128,6 @@ export default function Home() {
   function goToNextSlide() {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   }
-
-  useEffect(() => {
-    const testimonialInterval = setInterval(() => {
-      setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-    }, 4500);
-
-    return () => clearInterval(testimonialInterval);
-  }, []);
 
   async function sendEmail(e) {
     e.preventDefault();
@@ -186,8 +185,6 @@ export default function Home() {
       setIsSubmitting(false);
     }
   }
-
-  const activeTestimonial = testimonials[testimonialIndex];
 
   return (
     <div
@@ -290,6 +287,7 @@ export default function Home() {
             onClick={(e) => e.stopPropagation()}
             style={{
               width: "min(100%, 560px)",
+              boxSizing: "border-box",
               maxHeight: "90vh",
               overflowY: "auto",
               background: "#ffffff",
@@ -399,38 +397,10 @@ export default function Home() {
           />
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "10px",
-            flexWrap: "wrap",
-            marginTop: "18px",
-          }}
-        >
-          {slides.map((_, index) => (
-            <button
-              key={`slide-dot-${index}`}
-              type="button"
-              onClick={() => setCurrentSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              style={{
-                width: index === currentSlide ? "34px" : "10px",
-                height: "10px",
-                borderRadius: "999px",
-                border: "none",
-                background: index === currentSlide ? "#09B7A1" : "#cbd5e1",
-                cursor: "pointer",
-                transition: "all 0.25s ease",
-                padding: 0,
-              }}
-            />
-          ))}
-        </div>
       </section>
 
       <section id="services" style={{ padding: "60px 20px", textAlign: "center" }}>
-        <h2 style={{ marginTop: 0 }}>Our Services</h2>
+        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Our Services</h2>
 
         <div
           style={{
@@ -458,7 +428,7 @@ export default function Home() {
       </section>
 
       <section id="about" style={{ padding: "60px 20px", background: "#f5f5f5" }}>
-        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>Why Qwickrepair?</h2>
+        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Why Qwickrepair?</h2>
 
         <p
           style={{
@@ -486,50 +456,34 @@ export default function Home() {
       </section>
 
       <section id="testimonials" style={{ padding: "60px 20px", background: "#f5f5f5", textAlign: "center" }}>
-        <h2 style={{ marginTop: 0 }}>Customer Testimonials</h2>
+        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Customer Testimonials</h2>
 
         <div
           style={{
-            maxWidth: "780px",
+            maxWidth: "1200px",
             margin: "40px auto 0",
-            background: "#fff",
-            padding: "32px 24px",
-            borderRadius: "16px",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+            overflow: "hidden",
           }}
         >
-          <p style={{ fontSize: "1.1rem", lineHeight: 1.8, marginBottom: "16px" }}>
-            &ldquo;{activeTestimonial.text}&rdquo;
-          </p>
-          <h4 style={{ margin: 0, color: "#09B7A1" }}>- {activeTestimonial.name}</h4>
-          <p
+          <div
             style={{
-              letterSpacing: "4px",
-              marginTop: "14px",
-              marginBottom: "20px",
-              color: "#d4af37",
+              display: "flex",
+              gap: "20px",
+              alignItems: "stretch",
+              width: "max-content",
+              animation: "testimonial-scroll 42s linear infinite",
             }}
           >
-            {"\u2605\u2605\u2605\u2605\u2605"}
-          </p>
-
-          <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap" }}>
-            {testimonials.map((testimonial, index) => (
-              <button
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <div
                 key={`${testimonial.name}-${index}`}
-                type="button"
-                onClick={() => setTestimonialIndex(index)}
-                aria-label={`Show testimonial ${index + 1}`}
                 style={{
-                  width: "12px",
-                  height: "12px",
-                  borderRadius: "999px",
-                  border: "none",
-                  background: index === testimonialIndex ? "#09B7A1" : "#cbd5e1",
-                  cursor: "pointer",
-                  padding: 0,
+                  width: "min(340px, calc(100vw - 56px))",
+                  flex: "0 0 auto",
                 }}
-              />
+              >
+                <TestimonialCard testimonial={testimonial} />
+              </div>
             ))}
           </div>
         </div>
@@ -758,6 +712,8 @@ function BookingForm({
         gap: "18px",
         background: "#ffffff",
         padding: "8px 0",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       <input name="name" placeholder="Name" required style={contactInputStyle} />
@@ -829,5 +785,96 @@ function BookingForm({
         </p>
       ) : null}
     </form>
+  );
+}
+
+function TestimonialCard({ testimonial }) {
+  const displayName = testimonial.name.split(",")[0];
+  const location = testimonial.name.includes(",") ? testimonial.name.split(",").slice(1).join(",").trim() : "";
+  const avatarLabel = displayName.charAt(0).toUpperCase();
+
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: "16px",
+        boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+        padding: "20px",
+        textAlign: "left",
+        minHeight: "280px",
+        height: "280px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "14px",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+        }}
+      >
+        <div
+          style={{
+            width: "48px",
+            height: "48px",
+            borderRadius: "50%",
+            background: "#8b6f63",
+            color: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 700,
+            fontSize: "1.35rem",
+            flexShrink: 0,
+          }}
+        >
+          {avatarLabel}
+        </div>
+
+        <div style={{ minWidth: 0 }}>
+          <p
+            style={{
+              margin: 0,
+              color: "#2563eb",
+              fontWeight: 700,
+              fontSize: "1rem",
+              lineHeight: 1.3,
+            }}
+          >
+            {displayName}
+          </p>
+          <p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: "0.95rem" }}>{testimonial.age}</p>
+          {location ? (
+            <p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: "0.9rem" }}>{location}</p>
+          ) : null}
+        </div>
+      </div>
+
+      <p
+        style={{
+          margin: 0,
+          color: "#f59e0b",
+          fontSize: "1.35rem",
+          letterSpacing: "2px",
+          lineHeight: 1,
+        }}
+      >
+        {"\u2605\u2605\u2605\u2605\u2605"}
+      </p>
+
+      <p
+        style={{
+          margin: 0,
+          color: "#1f2937",
+          lineHeight: 1.65,
+          fontSize: "1rem",
+          flex: 1,
+        }}
+      >
+        {testimonial.text}
+      </p>
+    </div>
   );
 }

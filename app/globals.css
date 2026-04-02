@@ -9,6 +9,15 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@keyframes testimonial-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 10px));
+  }
+}
+
 /* SLIDER ANIMATION */
 @keyframes slide {
   0% {

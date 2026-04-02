@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export const metadata = {
   title: "Qwickrepair Solutions",
   description: "Home repair services in Bengaluru",
