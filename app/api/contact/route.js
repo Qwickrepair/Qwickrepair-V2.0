@@ -1,6 +1,9 @@
 import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 
+const DEFAULT_QWICKREPAIR_EMAIL = "qwickrepair@gmail.com";
+const DEFAULT_FROM_NAME = "Qwickrepair Solutions";
+
 function escapeHtml(value) {
   return String(value || "")
     .replaceAll("&", "&amp;")
@@ -19,11 +22,11 @@ function parseBoolean(value, defaultValue = false) {
 }
 
 function createTransportOptions() {
-  const smtpHost = process.env.QWICKREPAIR_SMTP_HOST;
+  const smtpHost = process.env.QWICKREPAIR_SMTP_HOST || "smtp.gmail.com";
   const smtpPort = Number(process.env.QWICKREPAIR_SMTP_PORT || 587);
   const smtpSecure = parseBoolean(process.env.QWICKREPAIR_SMTP_SECURE, smtpPort === 465);
-  const smtpUser = process.env.QWICKREPAIR_SMTP_USER;
-  const smtpPass = process.env.QWICKREPAIR_SMTP_PASS;
+  const smtpUser = process.env.QWICKREPAIR_SMTP_USER || DEFAULT_QWICKREPAIR_EMAIL;
+  const smtpPass = String(process.env.QWICKREPAIR_SMTP_PASS || "").replaceAll(" ", "");
 
   if (!smtpHost || !smtpUser || !smtpPass) {
     return null;
@@ -59,10 +62,10 @@ export async function POST(request) {
     }
 
     const transportOptions = createTransportOptions();
-    const smtpUser = process.env.QWICKREPAIR_SMTP_USER;
-    const toEmail = process.env.QWICKREPAIR_TO_EMAIL || smtpUser;
-    const fromEmail = process.env.QWICKREPAIR_FROM_EMAIL || smtpUser;
-    const fromName = process.env.QWICKREPAIR_FROM_NAME || "Qwickrepair Solutions";
+    const smtpUser = process.env.QWICKREPAIR_SMTP_USER || DEFAULT_QWICKREPAIR_EMAIL;
+    const toEmail = process.env.QWICKREPAIR_TO_EMAIL || DEFAULT_QWICKREPAIR_EMAIL;
+    const fromEmail = process.env.QWICKREPAIR_FROM_EMAIL || DEFAULT_QWICKREPAIR_EMAIL;
+    const fromName = process.env.QWICKREPAIR_FROM_NAME || DEFAULT_FROM_NAME;
 
     if (!transportOptions || !toEmail || !fromEmail) {
       return NextResponse.json(

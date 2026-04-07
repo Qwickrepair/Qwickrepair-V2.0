@@ -35,6 +35,12 @@ Required environment variables:
 - `QWICKREPAIR_FROM_EMAIL`
 - `QWICKREPAIR_TO_EMAIL`
 
+Optional public social links:
+
+- `NEXT_PUBLIC_QWICKREPAIR_FACEBOOK_URL`
+- `NEXT_PUBLIC_QWICKREPAIR_INSTAGRAM_URL`
+- `NEXT_PUBLIC_QWICKREPAIR_TELEGRAM_URL`
+
 Recommended Gmail SMTP values:
 
 - `QWICKREPAIR_SMTP_HOST=smtp.gmail.com`
@@ -49,6 +55,7 @@ Notes:
 - `QWICKREPAIR_FROM_EMAIL` should usually match the authenticated SMTP mailbox.
 - `QWICKREPAIR_TO_EMAIL` is the inbox that receives contact form submissions.
 - If email is unavailable, the form falls back to WhatsApp so the customer can still send the request.
+- Social icons only render when a real public profile URL is configured, so the site does not show broken placeholder links.
 
 ## Deployment
 

@@ -11,10 +11,10 @@ const slides = [
   "/slider/slide4.jpg",
   "/slider/slide5.jpg",
   "/slider/slide6.jpg",
-  "/slider/Slide7.jpg",
-  "/slider/Slide8.jpg",
+  "/slider/slide7.jpg",
+  "/slider/slide8.jpg",
   "/slider/slide9.jpg",
-  "/slider/Slide10.jpg",
+  "/slider/slide10.jpg",
   "/slider/slide11.jpg",
 ];
 
@@ -22,38 +22,103 @@ const testimonials = [
   {
     text: "Very quick plumbing service. Highly recommended!",
     name: "Ravi Kumar, Whitefield",
-    age: "2 years ago",
+    age: "Mar'22",
+    rating: 5,
   },
   {
     text: "Electrician was professional and fixed the issue fast.",
     name: "Priya Patel, Kasturinagar",
-    age: "2 years ago",
+    age: "Jul'22",
+    rating: 4,
   },
   {
     text: "Everything was done to satisfaction within three days, and the team was very supportive throughout.",
     name: "Sonita B, Nikoo Homes",
-    age: "2 years ago",
+    age: "Nov'23",
+    rating: 5,
   },
   {
     text: "The service was prompt, clear, and reliable from booking to completion.",
     name: "Kuhu, Kolte Patil Raaga",
-    age: "2 years ago",
+    age: "Feb'24",
+    rating: 5,
   },
   {
     text: "Work was completed neatly and on time, and the staff stayed helpful the whole way.",
     name: "Manoj Kumar B, Nikoo Homes",
-    age: "2 years ago",
+    age: "Aug'24",
+    rating: 4,
   },
   {
     text: "Pest control service was polite, thorough, and effective.",
     name: "Bharat Kumar, Mahadevpura",
-    age: "2 years ago",
+    age: "Jan'25",
+    rating: 5,
   },
   {
     text: "Cleaning service was excellent. Very satisfied.",
     name: "Arjun Reddy, Shobha City",
-    age: "2 years ago",
+    age: "Mar'25",
+    rating: 4,
   },
+];
+
+const projectGallery = [
+  {
+    title: "Bathroom Plumbing Upgrade",
+    category: "Plumbing",
+    image: "/slider/slide1.jpg",
+  },
+  {
+    title: "Apartment Electrical Repair",
+    category: "Electrical",
+    image: "/slider/slide3.jpg",
+  },
+  {
+    title: "Interior Painting Refresh",
+    category: "Painting",
+    image: "/slider/slide5.jpg",
+  },
+  {
+    title: "Deep Cleaning Service",
+    category: "Cleaning",
+    image: "/slider/slide8.jpg",
+  },
+  {
+    title: "Woodwork Finishing Project",
+    category: "Carpentry",
+    image: "/slider/slide10.jpg",
+  },
+  {
+    title: "Residential Pest Control",
+    category: "Pest Control",
+    image: "/slider/slide11.jpg",
+  },
+];
+
+const faqs = [
+  {
+    question: "What services can I book with Qwickrepair?",
+    answer:
+      "You can book plumbing, electrical, carpentry, painting, cleaning, and pest control services for homes, offices, and commercial spaces.",
+  },
+  {
+    question: "Do you offer same-day service?",
+    answer:
+      "Same-day support may be available depending on the service type, technician availability, and your location in Bengaluru.",
+  },
+  {
+    question: "How do I get a quote?",
+    answer:
+      "You can submit the contact form, call us, or message us on WhatsApp with your service details to receive a quote.",
+  },
+];
+
+const terms = [
+  "Site visits and inspection charges may apply for certain jobs and will be shared in advance.",
+  "Final pricing depends on scope of work, material requirements, and service location.",
+  "Work schedules are subject to technician availability, traffic conditions, and customer confirmation.",
+  "Any additional work requested after job start may require revised pricing and timelines.",
 ];
 
 const services = [
@@ -66,6 +131,36 @@ const services = [
 ];
 
 const whatsappNumber = "918880787787";
+const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+const socialIconPaths = {
+  facebook: "/icons/facebook.png",
+  instagram: "/icons/instagram.png",
+  telegram: "/icons/telegram.png",
+  whatsapp: "/icons/whatsapp.png",
+};
+
+const socialLinks = [
+  {
+    name: "Facebook",
+    href: process.env.NEXT_PUBLIC_QWICKREPAIR_FACEBOOK_URL,
+    icon: socialIconPaths.facebook,
+  },
+  {
+    name: "Instagram",
+    href: process.env.NEXT_PUBLIC_QWICKREPAIR_INSTAGRAM_URL,
+    icon: socialIconPaths.instagram,
+  },
+  {
+    name: "Telegram",
+    href: process.env.NEXT_PUBLIC_QWICKREPAIR_TELEGRAM_URL,
+    icon: socialIconPaths.telegram,
+  },
+  {
+    name: "WhatsApp",
+    href: whatsappUrl,
+    icon: socialIconPaths.whatsapp,
+  },
+];
 
 const iconStyle = {
   width: "30px",
@@ -102,11 +197,11 @@ function openWhatsAppFallback(payload) {
     payload.details || "Not provided",
   ].join("\n");
 
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-  const popup = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  const whatsappRequestUrl = `${whatsappUrl}?text=${encodeURIComponent(message)}`;
+  const popup = window.open(whatsappRequestUrl, "_blank", "noopener,noreferrer");
 
   if (!popup) {
-    window.location.href = whatsappUrl;
+    window.location.href = whatsappRequestUrl;
   }
 }
 
@@ -133,14 +228,16 @@ export default function Home() {
     e.preventDefault();
 
     const form = e.currentTarget;
+    const formData = new FormData(form);
+    const getValue = (fieldName) => String(formData.get(fieldName) || "").trim();
     const payload = {
-      service: form.service.value.trim(),
-      name: form.name.value.trim(),
-      email: form.email.value.trim(),
-      phone: form.phone.value.trim(),
-      house: form.house.value.trim(),
-      address: form.address.value.trim(),
-      details: form.details.value.trim(),
+      service: getValue("service"),
+      name: getValue("name"),
+      email: getValue("email"),
+      phone: getValue("phone"),
+      house: getValue("house"),
+      address: getValue("address"),
+      details: getValue("details"),
     };
 
     setIsSubmitting(true);
@@ -155,14 +252,14 @@ export default function Home() {
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         if (result.code === "EMAIL_UNAVAILABLE") {
           openWhatsAppFallback(payload);
           form.reset();
           setSelectedService("General Enquiry");
-          setSubmitMessage("Online email is unavailable, so we opened WhatsApp with your request.");
+          setSubmitMessage("WhatsApp opened with your request because online email is unavailable right now.");
           return;
         }
 
@@ -189,7 +286,6 @@ export default function Home() {
   return (
     <div
       style={{
-        fontFamily: "Arial, sans-serif",
         color: "#1f2937",
         background: "#ffffff",
         width: "100%",
@@ -271,21 +367,33 @@ export default function Home() {
           role="dialog"
           aria-modal="true"
           aria-label="Book a service"
-          onClick={() => setIsBookingOpen(false)}
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(15, 23, 42, 0.55)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             padding: "20px",
-            zIndex: 200,
+            zIndex: 5000,
           }}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
+          <button
+            type="button"
+            aria-label="Close booking form backdrop"
+            onClick={() => setIsBookingOpen(false)}
             style={{
+              position: "absolute",
+              inset: 0,
+              border: "none",
+              background: "rgba(15, 23, 42, 0.55)",
+              padding: 0,
+              margin: 0,
+              cursor: "default",
+            }}
+          />
+          <div
+            style={{
+              position: "relative",
               width: "min(100%, 560px)",
               boxSizing: "border-box",
               maxHeight: "90vh",
@@ -310,6 +418,18 @@ export default function Home() {
                 <p style={{ margin: "6px 0 0", color: "#4b5563", lineHeight: 1.5 }}>
                   Fill in your details and we will get back to you quickly.
                 </p>
+                {submitMessage ? (
+                  <p
+                    style={{
+                      margin: "10px 0 0",
+                      color: submitMessage.includes("successfully") ? "#15847c" : "#b91c1c",
+                      fontSize: "0.95rem",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {submitMessage}
+                  </p>
+                ) : null}
               </div>
               <button
                 type="button"
@@ -360,7 +480,7 @@ export default function Home() {
       </section>
 
       <section
-        style={{
+        style={{  
           maxWidth: "1200px",
           margin: "0 auto",
           padding: "0 20px 50px",
@@ -421,6 +541,7 @@ export default function Home() {
               onSelect={() => {
                 setSelectedService(service.title);
                 setSubmitMessage("");
+                setIsBookingOpen(true);
               }}
             />
           ))}
@@ -489,6 +610,76 @@ export default function Home() {
         </div>
       </section>
 
+      <section
+        id="gallery"
+        style={{
+          padding: "60px 20px",
+          background: "linear-gradient(180deg, #f8fffe 0%, #eef9f8 100%)",
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>
+          Project Gallery
+        </h2>
+        <p
+          style={{
+            maxWidth: "760px",
+            margin: "18px auto 0",
+            color: "#4b5563",
+            fontSize: "1.05rem",
+            lineHeight: 1.7,
+          }}
+        >
+          A quick look at some of the completed repair, maintenance, and improvement work handled by our team.
+        </p>
+
+        <div
+          style={{
+            maxWidth: "1200px",
+            margin: "34px auto 0",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
+            gap: "22px",
+          }}
+        >
+          {projectGallery.map((project) => (
+            <div
+              key={project.title}
+              style={{
+                background: "#ffffff",
+                borderRadius: "20px",
+                overflow: "hidden",
+                boxShadow: "0 14px 32px rgba(15, 23, 42, 0.1)",
+                textAlign: "left",
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "4 / 3",
+                  background: "#dbe5e7",
+                }}
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+
+              <div style={{ padding: "18px 18px 20px" }}>
+                <h3 style={{ margin: 0, color: "#111827", fontSize: "1.2rem", lineHeight: 1.4 }}>
+                  {project.title}
+                </h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section id="booking" style={{ padding: "70px 20px 40px", background: "#ffffff" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <h2
@@ -531,32 +722,117 @@ export default function Home() {
               <p style={{ color: "#15847c", fontSize: "1.9rem", marginTop: 0, marginBottom: "18px" }}>
                 Better yet, see us in person!
               </p>
-              <p style={{ lineHeight: 1.7, fontSize: "1.05rem", color: "#374151", marginBottom: "26px" }}>
+              <p style={{ lineHeight: 1.7, fontSize: "1.05rem", color: "#374151", marginBottom: "70px" }}>
                 We stay in constant communication with our customers until the job is done. To get a
                 free quote, or if you have questions or special requests, just drop us a line.
               </p>
 
-              <h3 style={{ color: "#15847c", fontSize: "2rem", fontWeight: 700, marginBottom: "16px" }}>
-                Qwickrepair Solutions
+              <h3
+                style={{
+                  color: "#15847c",
+                  fontSize: "2rem",
+                  fontWeight: 700,
+                  fontFamily: "var(--font-fonia)",
+                  marginTop: 0,
+                  marginBottom: "6px",
+                }}
+              >
+                <span style={{ color: "#FF6633" }}>Q</span>
+                <span style={{ color: "#09B7A1" }}>wickrepair </span>
+                <span style={{ color: "#FF6633" }}>S</span>
+                <span style={{ color: "#09B7A1" }}>olutions</span>
               </h3>
-              <p style={{ lineHeight: 1.7, fontSize: "1.05rem", color: "#4b5563", maxWidth: "420px" }}>
+              <p
+                style={{
+                  lineHeight: 1.7,
+                  fontSize: "1.05rem",
+                  color: "#4b5563",
+                  maxWidth: "420px",
+                  marginTop: 0,
+                }}
+              >
                 143/2, 1st Main, 4th Cross, Krishnayan Palya, Indiranagar, Bengaluru, Karnataka
                 560038
               </p>
 
+              <div style={{ marginTop: "28px", maxWidth: "520px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <details
+                  style={{
+                    padding: 0,
+                  }}
+                >
+                  <summary
+                    className="details-summary"
+                    style={{
+                      cursor: "pointer",
+                      color: "#15847c",
+                      fontSize: "1.05rem",
+                      fontWeight: 700,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    FAQ
+                  </summary>
+                  <div style={{ marginTop: "14px", display: "flex", flexDirection: "column", gap: "14px" }}>
+                    {faqs.map((faq) => (
+                      <div key={faq.question}>
+                        <p style={{ margin: 0, color: "#111827", fontWeight: 700, lineHeight: 1.5 }}>
+                          {faq.question}
+                        </p>
+                        <p style={{ margin: "6px 0 0", color: "#4b5563", lineHeight: 1.7 }}>{faq.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+
+                <details
+                  style={{
+                    padding: 0,
+                  }}
+                >
+                  <summary
+                    className="details-summary"
+                    style={{
+                      cursor: "pointer",
+                      color: "#15847c",
+                      fontSize: "1.05rem",
+                      fontWeight: 700,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Terms & Conditions
+                  </summary>
+                  <ul style={{ margin: "14px 0 0", paddingLeft: "18px", color: "#4b5563", lineHeight: 1.8 }}>
+                    {terms.map((term) => (
+                      <li key={term}>{term}</li>
+                    ))}
+                  </ul>
+                </details>
+              </div>
+
               <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
-                <a href="#" target="_blank" rel="noreferrer" aria-label="Facebook">
-                  <Image src="/icons/facebook.png" alt="Facebook" width={30} height={30} style={iconStyle} />
-                </a>
-                <a href="#" target="_blank" rel="noreferrer" aria-label="Instagram">
-                  <Image src="/icons/instagram.png" alt="Instagram" width={30} height={30} style={iconStyle} />
-                </a>
-                <a href="#" target="_blank" rel="noreferrer" aria-label="Telegram">
-                  <Image src="/icons/telegram.png" alt="Telegram" width={30} height={30} style={iconStyle} />
-                </a>
-                <a href="https://wa.me/918880787787" target="_blank" rel="noreferrer" aria-label="WhatsApp">
-                  <Image src="/icons/whatsapp.png" alt="WhatsApp" width={30} height={30} style={iconStyle} />
-                </a>
+                {socialLinks.map((link) => {
+                  const icon = <Image src={link.icon} alt={link.name} width={30} height={30} style={iconStyle} />;
+
+                  if (!link.href) {
+                    return (
+                      <span
+                        key={link.name}
+                        aria-label={`${link.name} link coming soon`}
+                        title={`${link.name} link coming soon`}
+                        style={{ display: "inline-flex" }}
+                      >
+                        {icon}
+                      </span>
+                    );
+                  }
+
+                  return (
+                    <a key={link.name} href={link.href} target="_blank" rel="noreferrer" aria-label={link.name}>
+                      {icon}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -583,7 +859,7 @@ export default function Home() {
               border: "none",
               width: "54px",
               height: "54px",
-              borderRadius: "50%",
+              borderRadius: "14px",
               cursor: "pointer",
               boxShadow: "0 10px 20px rgba(0,0,0,0.16)",
               display: "flex",
@@ -595,17 +871,18 @@ export default function Home() {
           </button>
         </a>
 
-        <a href="https://wa.me/918880787787" target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp">
+        <a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp">
           <Image
-            src="/icons/whatsapp.png"
+            src={socialIconPaths.whatsapp}
             alt="WhatsApp"
             width={50}
             height={50}
             style={{
-              width: "50px",
-              height: "50px",
-              borderRadius: "50%",
+              width: "54px",
+              height: "54px",
+              borderRadius: "14px",
               cursor: "pointer",
+              boxShadow: "0 10px 20px rgba(0,0,0,0.16)",
             }}
           />
         </a>
@@ -627,14 +904,18 @@ export default function Home() {
 
 function ServiceCard({ title, image, onSelect }) {
   return (
-    <a
-      href="#booking"
+    <button
+      type="button"
       onClick={onSelect}
       style={{
-        textDecoration: "none",
         color: "#000",
         minWidth: 0,
         width: "100%",
+        background: "transparent",
+        border: "none",
+        padding: 0,
+        cursor: "pointer",
+        textAlign: "left",
       }}
     >
       <div
@@ -644,12 +925,12 @@ function ServiceCard({ title, image, onSelect }) {
           boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
           background: "#fff",
           textAlign: "center",
-          padding: "clamp(14px, 2vw, 20px)",
           height: "100%",
           minWidth: 0,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          padding: "clamp(14px, 2vw, 20px)",
         }}
       >
         <div
@@ -691,7 +972,7 @@ function ServiceCard({ title, image, onSelect }) {
           Book Now
         </p>
       </div>
-    </a>
+    </button>
   );
 }
 
@@ -746,10 +1027,21 @@ function BookingForm({
           ...contactInputStyle,
           resize: "vertical",
           lineHeight: 1.6,
-          fontFamily: "Roboto, Arial, sans-serif",
+          fontFamily: "inherit",
           fontSize: "14px",
         }}
       />
+
+      <p
+        style={{
+          margin: "-6px 0 0",
+          color: "#6b7280",
+          fontSize: "0.9rem",
+          lineHeight: 1.5,
+        }}
+      >
+        Fill in your details and submit your request. If email is temporarily unavailable, WhatsApp will open automatically.
+      </p>
 
       <button
         type="submit"
@@ -760,6 +1052,7 @@ function BookingForm({
           padding: "13px 24px",
           border: "none",
           borderRadius: "12px",
+          fontFamily: "inherit",
           fontWeight: 700,
           letterSpacing: "0.18em",
           cursor: "pointer",
@@ -792,20 +1085,22 @@ function TestimonialCard({ testimonial }) {
   const displayName = testimonial.name.split(",")[0];
   const location = testimonial.name.includes(",") ? testimonial.name.split(",").slice(1).join(",").trim() : "";
   const avatarLabel = displayName.charAt(0).toUpperCase();
+  const stars = "\u2605".repeat(testimonial.rating || 5);
 
   return (
     <div
       style={{
-        background: "#fff",
-        borderRadius: "16px",
-        boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+        background: "linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)",
+        borderRadius: "24px",
+        border: "1px solid #d1d5db",
+        boxShadow: "0 14px 34px rgba(15, 23, 42, 0.08)",
         padding: "20px",
         textAlign: "left",
-        minHeight: "280px",
-        height: "280px",
+        minHeight: "300px",
+        height: "300px",
         display: "flex",
         flexDirection: "column",
-        gap: "14px",
+        gap: "18px",
       }}
     >
       <div
@@ -817,16 +1112,16 @@ function TestimonialCard({ testimonial }) {
       >
         <div
           style={{
-            width: "48px",
-            height: "48px",
+            width: "58px",
+            height: "58px",
             borderRadius: "50%",
-            background: "#8b6f63",
-            color: "#fff",
+            background: "#e5e7eb",
+            color: "#111827",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontWeight: 700,
-            fontSize: "1.35rem",
+            fontSize: "1.75rem",
             flexShrink: 0,
           }}
         >
@@ -837,44 +1132,76 @@ function TestimonialCard({ testimonial }) {
           <p
             style={{
               margin: 0,
-              color: "#2563eb",
+              color: "#111827",
               fontWeight: 700,
-              fontSize: "1rem",
-              lineHeight: 1.3,
+              fontSize: "1.1rem",
+              lineHeight: 1.25,
             }}
           >
             {displayName}
           </p>
-          <p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: "0.95rem" }}>{testimonial.age}</p>
           {location ? (
-            <p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: "0.9rem" }}>{location}</p>
+            <p
+              style={{
+                margin: 0,
+                color: "#111827",
+                fontSize: "0.95rem",
+                lineHeight: 1.4,
+              }}
+            >
+              {location}
+            </p>
           ) : null}
+          <p
+            style={{
+              margin: 0,
+              color: "#111827",
+              fontSize: "0.9rem",
+              lineHeight: 1.4,
+            }}
+          >
+            {testimonial.age}
+          </p>
         </div>
       </div>
 
-      <p
+      <div
         style={{
-          margin: 0,
-          color: "#f59e0b",
-          fontSize: "1.35rem",
-          letterSpacing: "2px",
-          lineHeight: 1,
-        }}
-      >
-        {"\u2605\u2605\u2605\u2605\u2605"}
-      </p>
-
-      <p
-        style={{
-          margin: 0,
-          color: "#1f2937",
-          lineHeight: 1.65,
-          fontSize: "1rem",
+          background: "#ffffff",
+          borderRadius: "22px",
+          border: "1px solid #e5e7eb",
+          padding: "24px",
           flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: "18px",
         }}
       >
-        {testimonial.text}
-      </p>
+        <p
+          style={{
+            margin: 0,
+            color: "#f59e0b",
+            fontSize: "1.3rem",
+            letterSpacing: "2px",
+            lineHeight: 1,
+          }}
+        >
+          {stars}
+        </p>
+
+        <p
+          style={{
+            margin: 0,
+            color: "#1f2937",
+            lineHeight: 1.7,
+            fontSize: "1rem",
+            fontWeight: 500,
+          }}
+        >
+          {testimonial.text}
+        </p>
+      </div>
     </div>
   );
 }
