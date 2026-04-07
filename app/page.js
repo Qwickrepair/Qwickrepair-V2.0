@@ -39,7 +39,7 @@ const testimonials = [
   },
   {
     text: "Custom shelves installed beautifully. Strong build and neat finish. Team handled everything with care.",
-    name: "Shashiala , Marathalli",
+    name: "Shashikala , Marathalli",
     age: "Jan'24",
     rating: 5,
   },
