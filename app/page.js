@@ -20,14 +20,14 @@ const slides = [
 
 const testimonials = [
   {
-    text: "Very quick plumbing service. Highly recommended!",
+    text: "Quick and safe wiring repair. Technician fixed frequent power cuts efficiently. Very professional and reliable service.",
     name: "Ravi Kumar, Whitefield",
     age: "Mar'22",
     rating: 5,
   },
   {
-    text: "Electrician was professional and fixed the issue fast.",
-    name: "Priya Patel, Kasturinagar",
+    text: "Bathroom pipe replacement done neatly. Good quality work and fair pricing. Highly recommend this service.  ",
+    name: "Stalin N, Kasturinagar",
     age: "Jul'22",
     rating: 4,
   },
@@ -38,25 +38,31 @@ const testimonials = [
     rating: 5,
   },
   {
-    text: "The service was prompt, clear, and reliable from booking to completion.",
-    name: "Kuhu, Kolte Patil Raaga",
+    text: "Custom shelves installed beautifully. Strong build and neat finish. Team handled everything with care.",
+    name: "Shashiala , Marathalli",
+    age: "Jan'24",
+    rating: 5,
+  },
+  {
+    text: "Renovation work exceeded expectations. Proper planning and execution. Team maintained cleanliness throughout.",
+    name: "Pihu B, Kolte Patil Raaga",
     age: "Feb'24",
     rating: 5,
   },
   {
-    text: "Work was completed neatly and on time, and the staff stayed helpful the whole way.",
-    name: "Manoj Kumar B, Nikoo Homes",
+    text: "Kitchen sink blockage cleared quickly. Technician explained the issue well. Smooth and hassle-free experience.",
+    name: "Manoj Kumar, Nikoo Homes",
     age: "Aug'24",
     rating: 4,
   },
   {
-    text: "Pest control service was polite, thorough, and effective.",
-    name: "Bharat Kumar, Mahadevpura",
+    text: "Fan and switchboard repair done perfectly. Fast response and affordable pricing. Truly satisfied with the service.",
+    name: "Bharat K S, Mahadevpura",
     age: "Jan'25",
     rating: 5,
   },
   {
-    text: "Cleaning service was excellent. Very satisfied.",
+    text: "Door alignment fixed smoothly. No more noise or gaps. Very professional and punctual carpentry service.",
     name: "Arjun Reddy, Shobha City",
     age: "Mar'25",
     rating: 4,
