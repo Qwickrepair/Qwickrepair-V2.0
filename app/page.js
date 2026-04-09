@@ -293,7 +293,6 @@ export default function Home() {
     <div
       style={{
         color: "#1f2937",
-        background: "#ffffff",
         width: "100%",
         maxWidth: "100vw",
         overflowX: "hidden",
@@ -302,70 +301,77 @@ export default function Home() {
     >
       <header
         style={{
-          background: "#ffffff",
+          background: "rgba(255, 255, 255, 0.88)",
+          backdropFilter: "blur(14px)",
           padding: "15px 20px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "20px",
           boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
           position: "sticky",
           top: 0,
           zIndex: 50,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-          <Image
-            src="/logo/Qwickrepair.png"
-            alt="Qwickrepair Solutions logo"
-            width={160}
-            height={50}
-            style={{ height: "50px", width: "auto" }}
-            priority
-          />
-          <h2 style={{ color: "#09B7A1", margin: 0 }}>Qwickrepair Solutions</h2>
-        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "20px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <Image
+              src="/logo/Qwickrepair.png"
+              alt="Qwickrepair Solutions logo"
+              width={160}
+              height={50}
+              style={{ height: "50px", width: "auto" }}
+              priority
+            />
+            <h2 style={{ color: "#09B7A1", margin: 0 }}>Qwickrepair Solutions</h2>
+          </div>
 
-        <nav style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}>
-          <a
-            href="#services"
-            style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
-          >
-            Services
-          </a>
-          <a
-            href="#about"
-            style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
-          >
-            About Us
-          </a>
-          <a
-            href="#testimonials"
-            style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
-          >
-            Testimonials
-          </a>
-          <button
-            type="button"
-            onClick={() => {
-              setSubmitMessage("");
-              setIsBookingOpen(true);
-            }}
-            style={{
-              color: "#1f2937",
-              textDecoration: "none",
-              fontSize: "0.95rem",
-              fontWeight: 700,
-              background: "transparent",
-              border: "none",
-              padding: 0,
-              cursor: "pointer",
-            }}
-          >
-            Book Now
-          </button>
-        </nav>
+          <nav style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}>
+            <a
+              href="#services"
+              style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
+            >
+              Services
+            </a>
+            <a
+              href="#about"
+              style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
+            >
+              About Us
+            </a>
+            <a
+              href="#testimonials"
+              style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
+            >
+              Testimonials
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setSubmitMessage("");
+                setIsBookingOpen(true);
+              }}
+              style={{
+                color: "#1f2937",
+                textDecoration: "none",
+                fontSize: "0.95rem",
+                fontWeight: 700,
+                background: "transparent",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+              }}
+            >
+              Book Now
+            </button>
+          </nav>
+        </div>
       </header>
 
       {isBookingOpen ? (
@@ -469,27 +475,53 @@ export default function Home() {
         </div>
       ) : null}
 
-      <section style={{ textAlign: "center", padding: "18px 20px 26px" }}>
-        <h1
+      <main
+        style={{
+          width: "100%",
+          padding: "0 clamp(14px, 3vw, 28px)",
+          boxSizing: "border-box",
+        }}
+      >
+      <section
+        style={{
+          textAlign: "center",
+          padding: "clamp(18px, 4vw, 42px) 0 clamp(20px, 4vw, 30px)",
+        }}
+      >
+        <div
           style={{
-            color: "#09B7A1",
-            fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-            marginBottom: "8px",
-            marginTop: 0,
+            width: "100%",
+            margin: 0,
           }}
         >
-          Home Repair Services in Bengaluru
-        </h1>
-        <p style={{ fontSize: "1.05rem", lineHeight: 1.7, margin: 0 }}>
-          Plumbing | Electrical | Carpentry | Pest Control | Painting | Cleaning
-        </p>
+          <h1
+            style={{
+              color: "#09B7A1",
+              fontSize: "clamp(1.9rem, 6vw, 3.5rem)",
+              lineHeight: 1.1,
+              margin: "0 0 clamp(10px, 2vw, 14px)",
+              textWrap: "balance",
+            }}
+          >
+            Home Repair Services in Bengaluru
+          </h1>
+          <p
+            style={{
+              fontSize: "clamp(0.98rem, 2.4vw, 1.1rem)",
+              lineHeight: 1.7,
+              margin: 0,
+              color: "#374151",
+              textWrap: "balance",
+            }}
+          >
+            Plumbing | Electrical | Carpentry | Pest Control | Painting | Cleaning
+          </p>
+        </div>
       </section>
 
       <section
         style={{  
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 20px 50px",
+          padding: "0 0 50px",
           textAlign: "center",
         }}
       >
@@ -497,10 +529,9 @@ export default function Home() {
           style={{
             position: "relative",
             width: "100%",
-            aspectRatio: "16 / 7",
-            minHeight: "260px",
+            height: "clamp(240px, 56vw, 520px)",
             overflow: "hidden",
-            borderRadius: "18px",
+            borderRadius: "clamp(14px, 2vw, 18px)",
             boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
             background: "#0f172a",
           }}
@@ -509,7 +540,7 @@ export default function Home() {
             src={slides[currentSlide]}
             alt={`Qwickrepair service slide ${currentSlide + 1}`}
             fill
-            sizes="(max-width: 768px) 100vw, 1200px"
+            sizes="100vw"
             style={{ objectFit: "cover" }}
             priority
           />
@@ -525,7 +556,7 @@ export default function Home() {
 
       </section>
 
-      <section id="services" style={{ padding: "60px 20px", textAlign: "center" }}>
+      <section id="services" style={{ padding: "60px 0", textAlign: "center" }}>
         <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Our Services</h2>
 
         <div
@@ -534,7 +565,6 @@ export default function Home() {
             gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))",
             gap: "clamp(14px, 2vw, 24px)",
             marginTop: "40px",
-            maxWidth: "1200px",
             marginInline: "auto",
             width: "100%",
             alignItems: "stretch",
@@ -554,12 +584,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" style={{ padding: "60px 20px", background: "#f5f5f5" }}>
+      <section id="about" style={{ padding: "60px 0", background: "#ffffff" }}>
         <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Why Qwickrepair?</h2>
 
         <p
           style={{
-            maxWidth: "900px",
+            width: "100%",
             margin: "30px auto 0",
             textAlign: "center",
             lineHeight: "1.8",
@@ -582,12 +612,12 @@ export default function Home() {
         </p>
       </section>
 
-      <section id="testimonials" style={{ padding: "60px 20px", background: "#f5f5f5", textAlign: "center" }}>
+      <section id="testimonials" style={{ padding: "60px 0", textAlign: "center", background: "#ffffff" }}>
         <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Customer Testimonials</h2>
 
         <div
           style={{
-            maxWidth: "1200px",
+            width: "100%",
             margin: "40px auto 0",
             overflow: "hidden",
           }}
@@ -619,8 +649,8 @@ export default function Home() {
       <section
         id="gallery"
         style={{
-          padding: "60px 20px",
-          background: "linear-gradient(180deg, #f8fffe 0%, #eef9f8 100%)",
+          padding: "60px 0",
+          background: "#ffffff",
           textAlign: "center",
         }}
       >
@@ -629,7 +659,7 @@ export default function Home() {
         </h2>
         <p
           style={{
-            maxWidth: "760px",
+            width: "100%",
             margin: "18px auto 0",
             color: "#4b5563",
             fontSize: "1.05rem",
@@ -641,7 +671,7 @@ export default function Home() {
 
         <div
           style={{
-            maxWidth: "1200px",
+            width: "100%",
             margin: "34px auto 0",
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
@@ -686,8 +716,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="booking" style={{ padding: "70px 20px 40px", background: "#ffffff" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+      <section id="booking" style={{ padding: "70px 0 40px", background: "#ffffff" }}>
+        <div style={{ maxWidth: "100%", margin: "0 auto" }}>
           <h2
             style={{
               color: "#39b7ab",
@@ -844,6 +874,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </main>
 
       <div
         style={{
@@ -902,7 +933,9 @@ export default function Home() {
           padding: "18px 20px",
         }}
       >
-        <p style={{ margin: 0 }}>&copy; 2026 Qwickrepair Solutions. All rights reserved.</p>
+        <div style={{ width: "100%", margin: "0 auto" }}>
+          <p style={{ margin: 0 }}>&copy; 2026 Qwickrepair Solutions. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );
@@ -1096,10 +1129,10 @@ function TestimonialCard({ testimonial }) {
   return (
     <div
       style={{
-        background: "linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)",
+        background: "#f3f4f6",
         borderRadius: "24px",
         border: "1px solid #d1d5db",
-        boxShadow: "0 14px 34px rgba(15, 23, 42, 0.08)",
+        boxShadow: "none",
         padding: "20px",
         textAlign: "left",
         minHeight: "300px",

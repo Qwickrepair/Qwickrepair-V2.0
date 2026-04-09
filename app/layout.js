@@ -23,7 +23,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} ${fonia.variable}`}>{children}</body>
+      <body className={`${roboto.className} ${fonia.variable}`}>
+        <div className="app-shell">{children}</div>
+      </body>
     </html>
   );
 }
