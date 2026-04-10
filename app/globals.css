@@ -25,6 +25,75 @@ body {
   background: #ffffff;
 }
 
+.qr-header-shell {
+  padding: 15px clamp(10px, 2.5vw, 28px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.qr-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.qr-header-title {
+  font-size: clamp(1.2rem, 2.3vw, 2rem);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qr-header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  justify-self: end;
+  gap: 16px;
+  min-width: 0;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.qr-book-now {
+  white-space: nowrap;
+  justify-self: end;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+@media (max-width: 980px) {
+  .qr-header-shell {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand book"
+      "nav nav";
+    row-gap: 10px;
+  }
+
+  .qr-header-brand {
+    grid-area: brand;
+  }
+
+  .qr-header-nav {
+    grid-area: nav;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .qr-book-now {
+    grid-area: book;
+    justify-self: end;
+  }
+}
+
 .details-summary {
   list-style: none;
 }

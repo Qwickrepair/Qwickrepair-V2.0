@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { PhoneCall } from "lucide-react";
 
@@ -217,6 +217,8 @@ export default function Home() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [headerHeight, setHeaderHeight] = useState(78);
+  const headerRef = useRef(null);
 
   useEffect(() => {
     const slideInterval = setInterval(() => {
@@ -225,6 +227,39 @@ export default function Home() {
 
     return () => clearInterval(slideInterval);
   }, []);
+
+  useEffect(() => {
+    if (!headerRef.current) {
+      return;
+    }
+
+    let resizeObserver;
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    updateHeaderHeight();
+    window.addEventListener("resize", updateHeaderHeight);
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(updateHeaderHeight);
+      resizeObserver.observe(headerRef.current);
+    }
+
+    return () => {
+      window.removeEventListener("resize", updateHeaderHeight);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
+  }, []);
+
+  function openBookingForm() {
+    setSubmitMessage("");
+    setIsBookingOpen(true);
+  }
 
   function goToNextSlide() {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -300,27 +335,22 @@ export default function Home() {
       }}
     >
       <header
+        ref={headerRef}
         style={{
           background: "rgba(255, 255, 255, 0.88)",
           backdropFilter: "blur(14px)",
-          padding: "15px 20px",
           boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          position: "sticky",
+          position: "fixed",
           top: 0,
+          left: 0,
+          right: 0,
+          width: "100%",
+          boxSizing: "border-box",
           zIndex: 50,
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "20px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+        <div className="qr-header-shell" style={{ width: "100%", boxSizing: "border-box" }}>
+          <div className="qr-header-brand">
             <Image
               src="/logo/Qwickrepair.png"
               alt="Qwickrepair Solutions logo"
@@ -329,10 +359,12 @@ export default function Home() {
               style={{ height: "50px", width: "auto" }}
               priority
             />
-            <h2 style={{ color: "#09B7A1", margin: 0 }}>Qwickrepair Solutions</h2>
+            <h2 className="qr-header-title" style={{ color: "#09B7A1", margin: 0 }}>
+              Qwickrepair Solutions
+            </h2>
           </div>
 
-          <nav style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}>
+          <nav className="qr-header-nav">
             <a
               href="#services"
               style={{ color: "#1f2937", textDecoration: "none", fontSize: "0.95rem", fontWeight: 700 }}
@@ -351,26 +383,24 @@ export default function Home() {
             >
               Testimonials
             </a>
-            <button
-              type="button"
-              onClick={() => {
-                setSubmitMessage("");
-                setIsBookingOpen(true);
-              }}
-              style={{
-                color: "#1f2937",
-                textDecoration: "none",
-                fontSize: "0.95rem",
-                fontWeight: 700,
-                background: "transparent",
-                border: "none",
-                padding: 0,
-                cursor: "pointer",
-              }}
-            >
-              Book Now
-            </button>
           </nav>
+
+          <button
+            className="qr-book-now"
+            type="button"
+            onClick={openBookingForm}
+            style={{
+              color: "#1f2937",
+              fontSize: "0.95rem",
+              fontWeight: 700,
+              background: "transparent",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+            }}
+          >
+            Book Now
+          </button>
         </div>
       </header>
 
@@ -478,14 +508,14 @@ export default function Home() {
       <main
         style={{
           width: "100%",
-          padding: "0 clamp(14px, 3vw, 28px)",
+          padding: `${headerHeight}px clamp(14px, 3vw, 28px) 0`,
           boxSizing: "border-box",
         }}
       >
       <section
         style={{
           textAlign: "center",
-          padding: "clamp(18px, 4vw, 42px) 0 clamp(20px, 4vw, 30px)",
+          padding: "0 0 clamp(20px, 4vw, 30px)",
         }}
       >
         <div
