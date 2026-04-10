@@ -284,9 +284,49 @@ export default function Home() {
     };
   }, [headerHeight]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const { hash, pathname, search } = window.location;
+    if (!hash) {
+      return;
+    }
+
+    const sectionId = hash.slice(1);
+    const targetSection = document.getElementById(sectionId);
+
+    if (!targetSection) {
+      window.history.replaceState(null, "", `${pathname}${search}`);
+      return;
+    }
+
+    const top = targetSection.getBoundingClientRect().top + window.scrollY - headerHeight;
+    window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+    setActiveSection(sectionId);
+    window.history.replaceState(null, "", `${pathname}${search}`);
+  }, [headerHeight]);
+
   function openBookingForm() {
     setSubmitMessage("");
     setIsBookingOpen(true);
+  }
+
+  function scrollToSection(sectionId) {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const section = document.getElementById(sectionId);
+    if (!section) {
+      return;
+    }
+
+    const top = section.getBoundingClientRect().top + window.scrollY - headerHeight;
+    window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+    setActiveSection(sectionId);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
   }
 
   function getNavLinkStyle(sectionId) {
@@ -406,30 +446,44 @@ export default function Home() {
           </div>
 
           <nav className="qr-header-nav">
-            <a href="#home" onClick={() => setActiveSection("home")} style={getNavLinkStyle("home")}>
+            <button
+              type="button"
+              onClick={() => scrollToSection("home")}
+              style={{ ...getNavLinkStyle("home"), background: "transparent", border: "none", cursor: "pointer" }}
+            >
               Home
-            </a>
-            <a
-              href="#services"
-              onClick={() => setActiveSection("services")}
-              style={getNavLinkStyle("services")}
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToSection("services")}
+              style={{
+                ...getNavLinkStyle("services"),
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+              }}
             >
               Services
-            </a>
-            <a
-              href="#about"
-              onClick={() => setActiveSection("about")}
-              style={getNavLinkStyle("about")}
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToSection("about")}
+              style={{ ...getNavLinkStyle("about"), background: "transparent", border: "none", cursor: "pointer" }}
             >
               About Us
-            </a>
-            <a
-              href="#testimonials"
-              onClick={() => setActiveSection("testimonials")}
-              style={getNavLinkStyle("testimonials")}
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToSection("testimonials")}
+              style={{
+                ...getNavLinkStyle("testimonials"),
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+              }}
             >
               Testimonials
-            </a>
+            </button>
           </nav>
 
           <button
