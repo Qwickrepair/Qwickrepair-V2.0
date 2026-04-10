@@ -668,31 +668,39 @@ export default function Home() {
       </section>
 
       <section id="about" style={{ padding: "60px 0", background: "#ffffff" }}>
-        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>About Us?</h2>
+        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>About Us</h2>
 
-        <p
-          style={{
-            width: "100%",
-            margin: "30px auto 0",
-            textAlign: "center",
-            lineHeight: "1.8",
-          }}
-        >
-          At <b>Qwickrepair Solutions</b>, we bring together skilled professionals dedicated to
-          delivering reliable and efficient home and commercial repair services.
-          <br />
-          <br />
-          From <b>plumbing, electrical, and carpentry</b> to <b>painting, cleaning, and pest control</b>,
-          we offer a complete range of solutions tailored to your needs.
-          <br />
-          <br />
-          Whether it is your home, office, or hotel, our on-call services and AMC support ensure you
-          get timely assistance exactly when you need it.
-          <br />
-          <br />
-          We are committed to providing a <b>high-quality, hassle-free, and dependable service experience</b>,
-          backed by trained technicians, the right tools, and a customer-first approach.
-        </p>
+        <div style={{ width: "100%", margin: "30px 0 0", textAlign: "left", lineHeight: "1.8" }}>
+          <p style={{ margin: 0 }}>
+            At Qwickrepair Solutions, our journey began in 2022 with a simple goal—to make repair and maintenance
+            services more reliable, accessible, and hassle-free for everyone. What started as a small initiative has
+            grown into a trusted service provider, proudly serving over 1500+ customers across residential and
+            commercial spaces up to 2026.
+          </p>
+          <p style={{ margin: "14px 0 0" }}>
+            Over the years, we have built a strong reputation by consistently delivering quality workmanship and
+            dependable service. Our team of skilled professionals specializes in a wide range of services, including
+            plumbing, electrical, carpentry, painting, cleaning, and pest control. Each project we take on reflects our
+            commitment to precision, efficiency, and customer satisfaction.
+          </p>
+          <p style={{ margin: "14px 0 0" }}>
+            Our journey has been marked by continuous learning and improvement. With every service request, we have
+            refined our processes, strengthened our team, and enhanced our ability to respond quickly and effectively.
+            This growth has enabled us to handle diverse requirements—from small household repairs to large-scale
+            commercial maintenance—with the same level of dedication and professionalism.
+          </p>
+          <p style={{ margin: "14px 0 0" }}>
+            We take pride in the trust our customers place in us. Their positive experiences and repeat engagements have
+            been the driving force behind our success. By offering on-call services as well as Annual Maintenance
+            Contracts (AMC), we ensure that our clients receive timely support and long-term solutions tailored to their
+            needs.
+          </p>
+          <p style={{ margin: "14px 0 0" }}>
+            As we move forward, Qwickrepair Solutions remains committed to innovation, quality service, and building
+            lasting relationships. Our journey so far has been strong and fulfilling, and we look forward to serving
+            many more customers with the same passion, reliability, and excellence that define us today.
+          </p>
+        </div>
       </section>
 
       <section id="testimonials" style={{ padding: "60px 0", textAlign: "center", background: "#ffffff" }}>
