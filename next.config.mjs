@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
+const privateLanOrigins = [
+  "10.*.*.*",
+  "192.168.*.*",
+  ...Array.from({ length: 16 }, (_, index) => `172.${16 + index}.*.*`),
+];
+
 const nextConfig = {
-  /* config options here */
   reactCompiler: true,
-  allowedDevOrigins: ["172.20.10.8", "172.16.10.88", "localhost", "127.0.0.1"],
+  allowedDevOrigins: ["localhost", "127.0.0.1", ...privateLanOrigins],
 };
 
 export default nextConfig;
