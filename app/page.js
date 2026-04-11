@@ -612,6 +612,7 @@ export default function Home() {
       ) : null}
 
       <main
+        className="qr-main"
         style={{
           width: "100%",
           padding: `${Math.max(headerHeight, 78)}px clamp(14px, 3vw, 28px) 0`,
@@ -620,9 +621,10 @@ export default function Home() {
       >
       <section
         id="home"
+        className="qr-section qr-hero"
         style={{
           textAlign: "center",
-          padding: "0 0 clamp(20px, 4vw, 30px)",
+          padding: "0 0 clamp(8px, 1.8vw, 14px)",
         }}
       >
         <div
@@ -657,6 +659,7 @@ export default function Home() {
       </section>
 
       <section
+        className="qr-section qr-slider-section"
         style={{  
           padding: "0 0 50px",
           textAlign: "center",
@@ -693,7 +696,7 @@ export default function Home() {
 
       </section>
 
-      <section id="services" style={{ padding: "60px 0", textAlign: "center" }}>
+      <section id="services" className="qr-section" style={{ padding: "60px 0", textAlign: "center" }}>
         <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Our Services</h2>
 
         <div
@@ -721,10 +724,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" style={{ padding: "60px 0", background: "#ffffff" }}>
+      <section id="about" className="qr-section" style={{ padding: "60px 0", background: "#ffffff" }}>
         <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>About Us</h2>
 
-        <div style={{ width: "100%", margin: "30px 0 0", textAlign: "left", lineHeight: "1.8" }}>
+        <div className="qr-about-copy" style={{ width: "100%", margin: "30px 0 0", textAlign: "left", lineHeight: "1.8" }}>
           <p style={{ margin: 0 }}>
             At Qwickrepair Solutions, our journey began in 2022 with a simple goal—to make repair and maintenance
             services more reliable, accessible, and hassle-free for everyone. What started as a small initiative has
@@ -757,7 +760,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="testimonials" style={{ padding: "60px 0", textAlign: "center", background: "#ffffff" }}>
+      <section id="testimonials" className="qr-section" style={{ padding: "60px 0", textAlign: "center", background: "#ffffff" }}>
         <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Customer Testimonials</h2>
 
         <div
@@ -793,6 +796,7 @@ export default function Home() {
 
       <section
         id="gallery"
+        className="qr-section"
         style={{
           padding: "60px 0",
           background: "#ffffff",
@@ -861,7 +865,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="booking" style={{ padding: "70px 0 40px", background: "#ffffff" }}>
+      <section id="booking" className="qr-section qr-booking-section" style={{ padding: "70px 0 40px", background: "#ffffff" }}>
         <div style={{ maxWidth: "100%", margin: "0 auto" }}>
           <h2
             style={{
@@ -877,6 +881,7 @@ export default function Home() {
           </h2>
 
           <div
+            className="qr-booking-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
@@ -899,7 +904,7 @@ export default function Home() {
               />
             </div>
 
-            <div style={{ paddingTop: "18px" }}>
+            <div className="qr-contact-side" style={{ paddingTop: "18px" }}>
               <p style={{ color: "#15847c", fontSize: "1.9rem", marginTop: 0, marginBottom: "18px" }}>
                 Better yet, see us in person!
               </p>
@@ -991,7 +996,7 @@ export default function Home() {
                 </details>
               </div>
 
-              <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
+              <div className="qr-social-links" style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
                 {socialLinks.map((link) => {
                   const icon = <Image src={link.icon} alt={link.name} width={30} height={30} style={iconStyle} />;
 
@@ -1022,6 +1027,7 @@ export default function Home() {
       </main>
 
       <div
+        className="qr-floating-actions"
         style={{
           position: "fixed",
           right: "16px",
@@ -1034,6 +1040,7 @@ export default function Home() {
       >
         <a href="tel:+918880787787" aria-label="Call Qwickrepair">
           <button
+            className="qr-floating-action-btn"
             type="button"
             style={{
               background: "#09B7A1",
@@ -1066,11 +1073,13 @@ export default function Home() {
               cursor: "pointer",
               boxShadow: "0 10px 20px rgba(0,0,0,0.16)",
             }}
+            className="qr-floating-action-btn"
           />
         </a>
       </div>
 
       <footer
+        className="qr-footer"
         style={{
           background: "#09B7A1",
           color: "#fff",
@@ -1103,6 +1112,7 @@ function ServiceCard({ title, image, onSelect }) {
       }}
     >
       <div
+        className="qr-service-card"
         style={{
           borderRadius: "12px",
           overflow: "hidden",
@@ -1273,6 +1283,7 @@ function TestimonialCard({ testimonial }) {
 
   return (
     <div
+      className="qr-testimonial-card"
       style={{
         background: "#f3f4f6",
         borderRadius: "24px",
@@ -1281,7 +1292,6 @@ function TestimonialCard({ testimonial }) {
         padding: "20px",
         textAlign: "left",
         minHeight: "300px",
-        height: "300px",
         display: "flex",
         flexDirection: "column",
         gap: "18px",
@@ -1350,6 +1360,7 @@ function TestimonialCard({ testimonial }) {
       </div>
 
       <div
+        className="qr-testimonial-body"
         style={{
           background: "#ffffff",
           borderRadius: "22px",
