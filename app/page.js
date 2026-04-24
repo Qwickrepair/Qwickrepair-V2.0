@@ -71,7 +71,7 @@ const testimonials = [
 
 const projectGallery = [
   {
-    title: "Bathroom Plumbing Upgrade",
+    title: "Carpet Cleaning",
     category: "Plumbing",
     image: "/slider/slide1.jpg",
   },
@@ -81,22 +81,22 @@ const projectGallery = [
     image: "/slider/slide3.jpg",
   },
   {
-    title: "Interior Painting Refresh",
+    title: "Sofa Shampooing",
     category: "Painting",
     image: "/slider/slide5.jpg",
   },
   {
-    title: "Deep Cleaning Service",
+    title: "Interior Painting Refresh",
     category: "Cleaning",
     image: "/slider/slide8.jpg",
   },
   {
-    title: "Woodwork Finishing Project",
+    title: "Bathroom repair",
     category: "Carpentry",
     image: "/slider/slide10.jpg",
   },
   {
-    title: "Residential Pest Control",
+    title: "Leakage fixing",
     category: "Pest Control",
     image: "/slider/slide11.jpg",
   },
@@ -336,6 +336,9 @@ export default function Home() {
       textDecoration: "none",
       fontSize: "0.95rem",
       fontWeight: 700,
+      borderTop: "none",
+      borderRight: "none",
+      borderLeft: "none",
       borderBottom: isActive ? "2px solid #09B7A1" : "2px solid transparent",
       paddingBottom: "4px",
       lineHeight: 1,
@@ -440,7 +443,10 @@ export default function Home() {
               style={{ height: "50px", width: "auto" }}
               priority
             />
-            <h2 className="qr-header-title" style={{ color: "#09B7A1", margin: 0 }}>
+            <h2
+              className="qr-header-title qr-display-heading"
+              style={{ color: "#09B7A1", margin: 0, fontFamily: "Arial, sans-serif" }}
+            >
               Qwickrepair Solutions
             </h2>
           </div>
@@ -449,7 +455,11 @@ export default function Home() {
             <button
               type="button"
               onClick={() => scrollToSection("home")}
-              style={{ ...getNavLinkStyle("home"), background: "transparent", border: "none", cursor: "pointer" }}
+              style={{
+                ...getNavLinkStyle("home"),
+                background: "transparent",
+                cursor: "pointer",
+              }}
             >
               Home
             </button>
@@ -459,7 +469,6 @@ export default function Home() {
               style={{
                 ...getNavLinkStyle("services"),
                 background: "transparent",
-                border: "none",
                 cursor: "pointer",
               }}
             >
@@ -468,7 +477,11 @@ export default function Home() {
             <button
               type="button"
               onClick={() => scrollToSection("about")}
-              style={{ ...getNavLinkStyle("about"), background: "transparent", border: "none", cursor: "pointer" }}
+              style={{
+                ...getNavLinkStyle("about"),
+                background: "transparent",
+                cursor: "pointer",
+              }}
             >
               About Us
             </button>
@@ -478,7 +491,6 @@ export default function Home() {
               style={{
                 ...getNavLinkStyle("testimonials"),
                 background: "transparent",
-                border: "none",
                 cursor: "pointer",
               }}
             >
@@ -498,7 +510,9 @@ export default function Home() {
               fontWeight: 700,
               lineHeight: 1,
               background: "transparent",
-              border: "none",
+              borderTop: "none",
+              borderRight: "none",
+              borderLeft: "none",
               padding: 0,
               paddingBottom: "4px",
               borderBottom: "2px solid transparent",
@@ -562,7 +576,9 @@ export default function Home() {
               }}
             >
               <div>
-                <h3 style={{ margin: 0, color: "#111827" }}>Book a Service</h3>
+                <h3 className="qr-display-heading" style={{ margin: 0, color: "#39b7ab" }}>
+                  Book a Service
+                </h3>
                 <p style={{ margin: "6px 0 0", color: "#4b5563", lineHeight: 1.5 }}>
                   Fill in your details and we will get back to you quickly.
                 </p>
@@ -634,9 +650,10 @@ export default function Home() {
           }}
         >
           <h1
+            className="qr-display-heading"
             style={{
               color: "#09B7A1",
-              fontSize: "clamp(1.9rem, 6vw, 3.5rem)",
+              fontSize: "clamp(2.1rem, 5.7vw, 3.8rem)",
               lineHeight: 1.1,
               margin: "0 0 clamp(10px, 2vw, 14px)",
               textWrap: "balance",
@@ -697,7 +714,9 @@ export default function Home() {
       </section>
 
       <section id="services" className="qr-section" style={{ padding: "60px 0", textAlign: "center" }}>
-        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Our Services</h2>
+        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
+          Our Services
+        </h2>
 
         <div
           style={{
@@ -725,7 +744,9 @@ export default function Home() {
       </section>
 
       <section id="about" className="qr-section" style={{ padding: "60px 0", background: "#ffffff" }}>
-        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>About Us</h2>
+        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
+          About Us
+        </h2>
 
         <div className="qr-about-copy" style={{ width: "100%", margin: "30px 0 0", textAlign: "left", lineHeight: "1.8" }}>
           <p style={{ margin: 0 }}>
@@ -761,7 +782,9 @@ export default function Home() {
       </section>
 
       <section id="testimonials" className="qr-section" style={{ padding: "60px 0", textAlign: "center", background: "#ffffff" }}>
-        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>Customer Testimonials</h2>
+        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
+          Customer Testimonials
+        </h2>
 
         <div
           style={{
@@ -803,7 +826,7 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <h2 style={{ color: "#09B7A1", textAlign: "center", marginTop: 0, fontSize: "30px" }}>
+        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
           Project Gallery
         </h2>
         <p
@@ -856,7 +879,7 @@ export default function Home() {
               </div>
 
               <div style={{ padding: "18px 18px 20px" }}>
-                <h3 style={{ margin: 0, color: "#111827", fontSize: "1.2rem", lineHeight: 1.4 }}>
+                <h3 className="qr-display-heading" style={{ margin: 0, color: "#111827", fontSize: "1.2rem", lineHeight: 1.4 }}>
                   {project.title}
                 </h3>
               </div>
@@ -868,12 +891,12 @@ export default function Home() {
       <section id="booking" className="qr-section qr-booking-section" style={{ padding: "70px 0 40px", background: "#ffffff" }}>
         <div style={{ maxWidth: "100%", margin: "0 auto" }}>
           <h2
+            className="qr-section-heading"
             style={{
               color: "#39b7ab",
               textAlign: "center",
               marginTop: 0,
               marginBottom: "28px",
-              fontSize: "clamp(2rem, 4vw, 3rem)",
               letterSpacing: "0.02em",
             }}
           >
@@ -892,7 +915,9 @@ export default function Home() {
             }}
           >
             <div>
-              <h3 style={{ marginTop: 0, marginBottom: "18px", color: "#111827" }}>Get a Quote!</h3>
+              <h3 className="qr-display-heading" style={{ marginTop: 0, marginBottom: "18px", color: "#09B7A1" }}>
+                Get a Quote!
+              </h3>
 
               <BookingForm
                 sendEmail={sendEmail}
@@ -914,11 +939,11 @@ export default function Home() {
               </p>
 
               <h3
+                className="qr-display-heading qr-footer-address"
                 style={{
                   color: "#15847c",
                   fontSize: "2rem",
                   fontWeight: 700,
-                  fontFamily: "var(--font-fonia)",
                   marginTop: 0,
                   marginBottom: "6px",
                 }}
@@ -1310,7 +1335,7 @@ function TestimonialCard({ testimonial }) {
             height: "58px",
             borderRadius: "50%",
             background: "#e5e7eb",
-            color: "#111827",
+            color: "#39b7ab",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -1326,7 +1351,7 @@ function TestimonialCard({ testimonial }) {
           <p
             style={{
               margin: 0,
-              color: "#111827",
+              color: "#39b7ab",
               fontWeight: 700,
               fontSize: "1.1rem",
               lineHeight: 1.25,

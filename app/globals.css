@@ -50,6 +50,24 @@ body {
   text-overflow: ellipsis;
 }
 
+.qr-display-heading {
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: clamp(1.3rem, 2.2vw, 2.15rem);
+}
+
+.qr-section-heading {
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
+}
+
+.qr-footer-address {
+  font-family: var(--font-fonia), Georgia, serif;
+}
+
 .qr-header-nav {
   display: flex;
   align-items: center;
