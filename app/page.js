@@ -659,7 +659,7 @@ export default function Home() {
               }}
             >
               <div>
-                <h3 className="qr-display-heading" style={{ margin: 0 }}>
+                <h3 className="qr-display-heading" style={{ margin: 0, color: "#09B7A1" }}>
                   Book a Service
                 </h3>
                 <p style={{ margin: "6px 0 0", color: "#4b5563", lineHeight: 1.5 }}>
@@ -1047,9 +1047,9 @@ export default function Home() {
                 }}
               >
                 <span style={{ color: "#FF6633" }}>Q</span>
-                <span style={{ color: "#09B7A1" }}>wickrepair </span>
+                <span style={{ color: "#09B7A1", fontFamily: "Roboto, sans-serif" }}>wickrepair </span>
                 <span style={{ color: "#FF6633" }}>S</span>
-                <span style={{ color: "#09B7A1" }}>olutions</span>
+                <span style={{ color: "#09B7A1", fontFamily: "Roboto, sans-serif" }}>olutions</span>
               </h3>
               <p
                 style={{
