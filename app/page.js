@@ -507,9 +507,12 @@ export default function Home() {
             />
             <h2
               className="qr-header-title qr-display-heading"
-              style={{ margin: 0, fontFamily: "Arial, sans-serif" }}
+              style={{ margin: 0, fontFamily: "Roboto, sans-serif" }}
             >
-              Qwickrepair Solutions
+              <span style={{ fontFamily: "var(--font-fonia), Roboto, sans-serif" }}>Q</span>
+              wickrepair{" "}
+              <span style={{ fontFamily: "var(--font-fonia), Roboto, sans-serif" }}>S</span>
+              olutions
             </h2>
           </div>
 
@@ -733,6 +736,7 @@ export default function Home() {
             className="qr-display-heading"
             style={{
               color: "#09B7A1",
+              fontFamily: "Roboto, sans-serif",
               fontSize: "clamp(2.1rem, 5.7vw, 3.8rem)",
               lineHeight: 1.1,
               margin: "0 0 clamp(10px, 2vw, 14px)",
@@ -1009,7 +1013,7 @@ export default function Home() {
             }}
           >
             <div className="qr-booking-form-side">
-              <h3 className="qr-display-heading" style={{ marginTop: 0, marginBottom: "18px" }}>
+              <h3 className="qr-display-heading" style={{ marginTop: 0, marginBottom: "18px", color: "#09B7A1" }}>
                 Get a Quote!
               </h3>
 
@@ -1356,7 +1360,7 @@ function BookingForm({
       <p
         style={{
           margin: "-6px 0 0",
-          color: "#6b7280",
+          color: "rgba(107, 114, 128, 0.5)",
           fontSize: "0.9rem",
           lineHeight: 1.5,
         }}

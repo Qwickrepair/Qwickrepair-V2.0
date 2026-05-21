@@ -109,7 +109,7 @@ export async function POST(request) {
         "Reply to this email to respond.",
       ].join("\n"),
       html: `
-        <div style="background:#f4f4f4;padding:32px 20px;font-family:Arial,sans-serif;color:#111827;">
+        <div style="background:#f4f4f4;padding:32px 20px;font-family:Roboto,sans-serif;color:#111827;">
           <div style="max-width:560px;margin:0 auto;background:#ffffff;padding:32px;border-radius:4px;">
             <h1 style="margin:0 0 28px;font-size:24px;line-height:1.4;">
               Qwickrepair Solutions<br />has received a new message.
