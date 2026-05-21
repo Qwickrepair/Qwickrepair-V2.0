@@ -776,7 +776,6 @@ export default function Home() {
             maxHeight: "70vh",
             overflow: "hidden",
             borderRadius: "clamp(14px, 2vw, 18px)",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
             background: "#0f172a",
           }}
         >
