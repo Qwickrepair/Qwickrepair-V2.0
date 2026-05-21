@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { PhoneCall } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, PhoneCall, X } from "lucide-react";
 
 const slides = [
   "/slider/slide1.jpg",
@@ -71,36 +71,57 @@ const testimonials = [
 
 const projectGallery = [
   {
-    title: "Carpet Cleaning",
-    category: "Plumbing",
-    image: "/slider/slide1.jpg",
+    title: "Home Deep Cleaning",
+    image: "/project-gallery/cleaning.jpg",
   },
   {
-    title: "Apartment Electrical Repair",
-    category: "Electrical",
-    image: "/slider/slide3.jpg",
+    title: "Electrical Repair 1",
+    image: "/project-gallery/electrical_repair1.jpg",
   },
   {
-    title: "Sofa Shampooing",
-    category: "Painting",
-    image: "/slider/slide5.jpg",
+    title: "Leakage Fixing",
+    image: "/project-gallery/leakage-fixing.jpg",
   },
   {
-    title: "Interior Painting Refresh",
-    category: "Cleaning",
-    image: "/slider/slide8.jpg",
+    title: "Plumbing Upgrade",
+    image: "/project-gallery/plumbing-upgrade.jpg",
   },
   {
-    title: "Bathroom repair",
-    category: "Carpentry",
-    image: "/slider/slide10.jpg",
+    title: "Carpentry Work",
+    image: "/project-gallery/carpentry-work2.jpeg",
   },
   {
-    title: "Leakage fixing",
-    category: "Pest Control",
-    image: "/slider/slide11.jpg",
+    title: "Electrical Repair 5",
+    image: "/project-gallery/electrical_repair5.jpeg",
+  },
+  {
+    title: "Kitchen Repair 1",
+    image: "/project-gallery/kitchen-repair1.jpeg",
+  },
+  {
+    title: "Kitchen Repair 2",
+    image: "/project-gallery/kitchen-repair2.jpeg",
+  },
+  {
+    title: "Metal Fabrication",
+    image: "/project-gallery/metal-fabrication4.jpg",
+  },
+  {
+    title: "False Ceiling",
+    image: "/project-gallery/false-ceiling2.jpeg",
+  },
+  {
+    title: "Painting Work",
+    image: "/project-gallery/painting.jpg",
+  },
+  {
+    title: "Pest Control",
+    image: "/project-gallery/pest-control.jpg",
   },
 ];
+
+const galleryPageSize = 8;
+const galleryRotationStep = 6;
 
 const faqs = [
   {
@@ -213,12 +234,15 @@ function openWhatsAppFallback(payload) {
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentGalleryStart, setCurrentGalleryStart] = useState(0);
+  const [isTestimonialsPaused, setIsTestimonialsPaused] = useState(false);
   const [selectedService, setSelectedService] = useState("General Enquiry");
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
   const [activeSection, setActiveSection] = useState("home");
   const [headerHeight, setHeaderHeight] = useState(78);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -227,6 +251,18 @@ export default function Home() {
     }, 3000);
 
     return () => clearInterval(slideInterval);
+  }, []);
+
+  useEffect(() => {
+    if (projectGallery.length <= galleryPageSize) {
+      return;
+    }
+
+    const galleryInterval = setInterval(() => {
+      setCurrentGalleryStart((prev) => (prev + galleryRotationStep) % projectGallery.length);
+    }, 10 * 60 * 1000);
+
+    return () => clearInterval(galleryInterval);
   }, []);
 
   useEffect(() => {
@@ -258,7 +294,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const sectionIds = ["home", "services", "about", "testimonials"];
+    const sectionIds = ["home", "services", "about", "testimonials", "gallery", "booking"];
     const updateActiveSection = () => {
       if (window.scrollY <= 80) {
         setActiveSection("home");
@@ -311,6 +347,7 @@ export default function Home() {
   function openBookingForm() {
     setSubmitMessage("");
     setIsBookingOpen(true);
+    setIsMenuOpen(false);
   }
 
   function scrollToSection(sectionId) {
@@ -326,6 +363,7 @@ export default function Home() {
     const top = section.getBoundingClientRect().top + window.scrollY - headerHeight;
     window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
     setActiveSection(sectionId);
+    setIsMenuOpen(false);
     window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
   }
 
@@ -348,6 +386,29 @@ export default function Home() {
   function goToNextSlide() {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   }
+
+  function goToPreviousSlide() {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  }
+
+  const visibleGallery = Array.from(
+    { length: Math.min(galleryPageSize, projectGallery.length) },
+    (_, index) => projectGallery[(currentGalleryStart + index) % projectGallery.length]
+  );
+
+  const carouselArrowButtonStyle = {
+    border: "none",
+    background: "rgba(255, 255, 255, 0.12)",
+    color: "#ffffff",
+    width: "34px",
+    height: "34px",
+    borderRadius: "999px",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    boxShadow: "none",
+  };
 
   async function sendEmail(e) {
     e.preventDefault();
@@ -436,91 +497,110 @@ export default function Home() {
         <div className="qr-header-shell" style={{ width: "100%", boxSizing: "border-box" }}>
           <div className="qr-header-brand">
             <Image
+              className="qr-header-logo"
               src="/logo/Qwickrepair.png"
               alt="Qwickrepair Solutions logo"
               width={160}
               height={50}
-              style={{ height: "50px", width: "auto" }}
+              style={{ width: "clamp(88px, 23vw, 108px)", height: "auto" }}
               priority
             />
             <h2
               className="qr-header-title qr-display-heading"
-              style={{ color: "#09B7A1", margin: 0, fontFamily: "Arial, sans-serif" }}
+              style={{ margin: 0, fontFamily: "Arial, sans-serif" }}
             >
               Qwickrepair Solutions
             </h2>
           </div>
 
-          <nav className="qr-header-nav">
+          <div className="qr-header-actions">
             <button
+              className="qr-book-now"
               type="button"
-              onClick={() => scrollToSection("home")}
+              onClick={openBookingForm}
               style={{
-                ...getNavLinkStyle("home"),
-                background: "transparent",
+                display: "inline-flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "3px",
+                color: "#ffffff",
+                lineHeight: 1,
+                background: "linear-gradient(135deg, #2fc3ad 0%, #176a72 100%)",
+                border: "none",
+                padding: "8px 14px",
+                borderRadius: "999px",
                 cursor: "pointer",
+                boxShadow: "0 8px 18px rgba(17, 94, 89, 0.18)",
+                minWidth: "clamp(132px, 14vw, 180px)",
+                textAlign: "center",
               }}
             >
-              Home
+              <span style={{ fontSize: "clamp(0.9rem, 1.15vw, 1.15rem)", fontWeight: 800, letterSpacing: "0.02em" }}>
+                BOOK NOW
+              </span>
+              <span style={{ fontSize: "clamp(0.55rem, 0.72vw, 0.7rem)", fontWeight: 600, lineHeight: 1.1 }}>
+                Reserve Your Slot
+              </span>
             </button>
-            <button
-              type="button"
-              onClick={() => scrollToSection("services")}
-              style={{
-                ...getNavLinkStyle("services"),
-                background: "transparent",
-                cursor: "pointer",
-              }}
-            >
-              Services
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToSection("about")}
-              style={{
-                ...getNavLinkStyle("about"),
-                background: "transparent",
-                cursor: "pointer",
-              }}
-            >
-              About Us
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToSection("testimonials")}
-              style={{
-                ...getNavLinkStyle("testimonials"),
-                background: "transparent",
-                cursor: "pointer",
-              }}
-            >
-              Testimonials
-            </button>
-          </nav>
 
-          <button
-            className="qr-book-now"
-            type="button"
-            onClick={openBookingForm}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              color: "#1f2937",
-              fontSize: "0.95rem",
-              fontWeight: 700,
-              lineHeight: 1,
-              background: "transparent",
-              borderTop: "none",
-              borderRight: "none",
-              borderLeft: "none",
-              padding: 0,
-              paddingBottom: "4px",
-              borderBottom: "2px solid transparent",
-              cursor: "pointer",
-            }}
-          >
-            Book Now
-          </button>
+            <div
+              className="qr-header-menu-wrap"
+              onMouseEnter={() => setIsMenuOpen(true)}
+              onMouseLeave={() => setIsMenuOpen(false)}
+            >
+              <button
+                type="button"
+                aria-expanded={isMenuOpen}
+                aria-controls="qr-header-menu"
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                className="qr-header-menu-btn"
+                onClick={() => setIsMenuOpen((open) => !open)}
+                style={{
+                  border: "1px solid #dbe5e7",
+                  background: "#ffffff",
+                  color: "#1f2937",
+                  width: "52px",
+                  height: "52px",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: isMenuOpen ? "0 10px 24px rgba(15, 23, 42, 0.12)" : "0 4px 14px rgba(15, 23, 42, 0.08)",
+                }}
+              >
+                {isMenuOpen ? <X size={24} strokeWidth={2.4} /> : <Menu size={24} strokeWidth={2.4} />}
+              </button>
+
+              <nav id="qr-header-menu" className={`qr-header-nav${isMenuOpen ? " qr-header-nav-open" : ""}`}>
+                {["home", "about", "services", "testimonials", "gallery", "booking"].map((sectionId) => (
+                  <button
+                    key={sectionId}
+                    type="button"
+                    onClick={() => scrollToSection(sectionId)}
+                    style={{
+                      ...getNavLinkStyle(sectionId),
+                      background: "transparent",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {sectionId === "home"
+                      ? "Home"
+                      : sectionId === "services"
+                        ? "Services"
+                        : sectionId === "about"
+                          ? "About Us"
+                          : sectionId === "testimonials"
+                            ? "Testimonials"
+                            : sectionId === "gallery"
+                              ? "Project Gallery"
+                              : "Contact"}
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -576,7 +656,7 @@ export default function Home() {
               }}
             >
               <div>
-                <h3 className="qr-display-heading" style={{ margin: 0, color: "#39b7ab" }}>
+                <h3 className="qr-display-heading" style={{ margin: 0 }}>
                   Book a Service
                 </h3>
                 <p style={{ margin: "6px 0 0", color: "#4b5563", lineHeight: 1.5 }}>
@@ -631,7 +711,7 @@ export default function Home() {
         className="qr-main"
         style={{
           width: "100%",
-          padding: `${Math.max(headerHeight, 78)}px clamp(14px, 3vw, 28px) 0`,
+          padding: `${Math.max(headerHeight - 10, 64)}px clamp(14px, 3vw, 28px) 0`,
           boxSizing: "border-box",
         }}
       >
@@ -640,7 +720,7 @@ export default function Home() {
         className="qr-section qr-hero"
         style={{
           textAlign: "center",
-          padding: "0 0 clamp(8px, 1.8vw, 14px)",
+          padding: "clamp(10px, 1.8vh, 16px) 0 clamp(8px, 1.8vw, 14px)",
         }}
       >
         <div
@@ -670,7 +750,7 @@ export default function Home() {
               textWrap: "balance",
             }}
           >
-            Plumbing | Electrical | Carpentry | Pest Control | Painting | Cleaning
+            Plumbing | Electrical | Carpentry | Painting | Cleaning | Pest Control
           </p>
         </div>
       </section>
@@ -678,7 +758,7 @@ export default function Home() {
       <section
         className="qr-section qr-slider-section"
         style={{  
-          padding: "0 0 50px",
+          padding: "0 0 10px",
           textAlign: "center",
         }}
       >
@@ -686,7 +766,10 @@ export default function Home() {
           style={{
             position: "relative",
             width: "100%",
-            height: "clamp(240px, 56vw, 520px)",
+            aspectRatio: "2.7 / 1",
+            height: "auto",
+            minHeight: "clamp(220px, 30vw, 520px)",
+            maxHeight: "70vh",
             overflow: "hidden",
             borderRadius: "clamp(14px, 2vw, 18px)",
             boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
@@ -697,7 +780,7 @@ export default function Home() {
             src={slides[currentSlide]}
             alt={`Qwickrepair service slide ${currentSlide + 1}`}
             fill
-            sizes="100vw"
+            sizes="(max-width: 520px) calc(100vw - 24px), (max-width: 980px) calc(100vw - 28px), calc(100vw - 56px)"
             style={{ objectFit: "cover" }}
             priority
           />
@@ -709,21 +792,57 @@ export default function Home() {
               background: "linear-gradient(180deg, rgba(15,23,42,0.08) 0%, rgba(15,23,42,0.35) 100%)",
             }}
           />
+
+          <button
+            type="button"
+            aria-label="Previous slide"
+            onClick={goToPreviousSlide}
+            style={{
+              ...carouselArrowButtonStyle,
+              position: "absolute",
+              left: "clamp(10px, 2vw, 18px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
+            <ChevronLeft size={18} strokeWidth={2.4} />
+          </button>
+
+          <button
+            type="button"
+            aria-label="Next slide"
+            onClick={goToNextSlide}
+            style={{
+              ...carouselArrowButtonStyle,
+              position: "absolute",
+              right: "clamp(10px, 2vw, 18px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
+            <ChevronRight size={18} strokeWidth={2.4} />
+          </button>
         </div>
 
       </section>
 
-      <section id="services" className="qr-section" style={{ padding: "60px 0", textAlign: "center" }}>
-        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
+      <section
+        id="services"
+        className="qr-section qr-section-divider qr-services-section"
+        style={{ padding: "clamp(4px, 0.8vh, 8px) 0 clamp(40px, 5vh, 64px)", textAlign: "center" }}
+      >
+        <h2 className="qr-section-heading" style={{ textAlign: "center", marginTop: 0 }}>
           Our Services
         </h2>
 
         <div
+          className="qr-services-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
             gap: "clamp(14px, 2vw, 24px)",
-            marginTop: "40px",
+            marginTop: "clamp(14px, 2vh, 22px)",
+            marginBottom: "clamp(20px, 3vh, 36px)",
             marginInline: "auto",
             width: "100%",
             alignItems: "stretch",
@@ -743,12 +862,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="qr-section" style={{ padding: "60px 0", background: "#ffffff" }}>
-        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
+      <section id="about" className="qr-section qr-section-divider" style={{ padding: "clamp(14px, 2vh, 24px) 0 clamp(18px, 3vh, 28px)", background: "#ffffff" }}>
+        <h2 className="qr-section-heading" style={{ textAlign: "center", marginTop: 0 }}>
           About Us
         </h2>
 
-        <div className="qr-about-copy" style={{ width: "100%", margin: "30px 0 0", textAlign: "left", lineHeight: "1.8" }}>
+        <div className="qr-about-copy" style={{ width: "100%", margin: "clamp(12px, 2vh, 18px) auto 0", textAlign: "left", lineHeight: "1.8" }}>
           <p style={{ margin: 0 }}>
             At Qwickrepair Solutions, our journey began in 2022 with a simple goal—to make repair and maintenance
             services more reliable, accessible, and hassle-free for everyone. What started as a small initiative has
@@ -781,29 +900,35 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="testimonials" className="qr-section" style={{ padding: "60px 0", textAlign: "center", background: "#ffffff" }}>
-        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
+      <section id="testimonials" className="qr-section qr-section-divider" style={{ padding: "clamp(4px, 0.8vh, 8px) 0 clamp(18px, 3vh, 28px)", textAlign: "center", background: "#ffffff" }}>
+        <h2 className="qr-section-heading" style={{ textAlign: "center", marginTop: 0 }}>
           Customer Testimonials
         </h2>
 
         <div
+          className="qr-testimonials-carousel"
+          onMouseEnter={() => setIsTestimonialsPaused(true)}
+          onMouseLeave={() => setIsTestimonialsPaused(false)}
           style={{
             width: "100%",
-            margin: "40px auto 0",
+            margin: "clamp(14px, 2vh, 22px) auto 0",
             overflow: "hidden",
           }}
         >
           <div
+            className="qr-testimonials-track"
             style={{
               display: "flex",
               gap: "20px",
               alignItems: "stretch",
               width: "max-content",
               animation: "testimonial-scroll 42s linear infinite",
+              animationPlayState: isTestimonialsPaused ? "paused" : "running",
             }}
           >
             {[...testimonials, ...testimonials].map((testimonial, index) => (
               <div
+                className="qr-testimonial-item"
                 key={`${testimonial.name}-${index}`}
                 style={{
                   width: "min(340px, calc(100vw - 56px))",
@@ -819,20 +944,20 @@ export default function Home() {
 
       <section
         id="gallery"
-        className="qr-section"
+        className="qr-section qr-section-divider"
         style={{
-          padding: "60px 0",
+          padding: "clamp(4px, 0.8vh, 8px) 0 clamp(18px, 3vh, 28px)",
           background: "#ffffff",
           textAlign: "center",
         }}
       >
-        <h2 className="qr-section-heading" style={{ color: "#09B7A1", textAlign: "center", marginTop: 0 }}>
+        <h2 className="qr-section-heading" style={{ textAlign: "center", marginTop: 0 }}>
           Project Gallery
         </h2>
         <p
           style={{
             width: "100%",
-            margin: "18px auto 0",
+            margin: "clamp(12px, 2vh, 18px) auto 0",
             color: "#4b5563",
             fontSize: "1.05rem",
             lineHeight: 1.7,
@@ -841,59 +966,28 @@ export default function Home() {
           A quick look at some of the completed repair, maintenance, and improvement work handled by our team.
         </p>
 
-        <div
-          style={{
-            width: "100%",
-            margin: "34px auto 0",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
-            gap: "22px",
-          }}
-        >
-          {projectGallery.map((project) => (
-            <div
-              key={project.title}
-              style={{
-                background: "#ffffff",
-                borderRadius: "20px",
-                overflow: "hidden",
-                boxShadow: "0 14px 32px rgba(15, 23, 42, 0.1)",
-                textAlign: "left",
-              }}
-            >
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  aspectRatio: "4 / 3",
-                  background: "#dbe5e7",
-                }}
-              >
+        <div className="qr-gallery-grid">
+          {visibleGallery.map((project) => (
+            <div key={project.image} className="qr-gallery-item">
+              <div className="qr-gallery-image-frame">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  sizes="(max-width: 520px) 92vw, (max-width: 900px) 46vw, (max-width: 1200px) 31vw, 23vw"
                   style={{ objectFit: "cover" }}
                 />
-              </div>
-
-              <div style={{ padding: "18px 18px 20px" }}>
-                <h3 className="qr-display-heading" style={{ margin: 0, color: "#111827", fontSize: "1.2rem", lineHeight: 1.4 }}>
-                  {project.title}
-                </h3>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="booking" className="qr-section qr-booking-section" style={{ padding: "70px 0 40px", background: "#ffffff" }}>
+      <section id="booking" className="qr-section qr-section-divider qr-booking-section" style={{ padding: "clamp(6px, 1vh, 10px) 0 clamp(18px, 2.5vh, 28px)", background: "#ffffff" }}>
         <div style={{ maxWidth: "100%", margin: "0 auto" }}>
           <h2
             className="qr-section-heading"
             style={{
-              color: "#39b7ab",
               textAlign: "center",
               marginTop: 0,
               marginBottom: "28px",
@@ -914,8 +1008,8 @@ export default function Home() {
               width: "100%",
             }}
           >
-            <div>
-              <h3 className="qr-display-heading" style={{ marginTop: 0, marginBottom: "18px", color: "#09B7A1" }}>
+            <div className="qr-booking-form-side">
+              <h3 className="qr-display-heading" style={{ marginTop: 0, marginBottom: "18px" }}>
                 Get a Quote!
               </h3>
 
@@ -930,10 +1024,10 @@ export default function Home() {
             </div>
 
             <div className="qr-contact-side" style={{ paddingTop: "18px" }}>
-              <p style={{ color: "#15847c", fontSize: "1.9rem", marginTop: 0, marginBottom: "18px" }}>
+              <p className="qr-contact-lead" style={{ color: "#15847c", fontSize: "1.9rem", marginTop: 0, marginBottom: "18px" }}>
                 Better yet, see us in person!
               </p>
-              <p style={{ lineHeight: 1.7, fontSize: "1.05rem", color: "#374151", marginBottom: "70px" }}>
+              <p className="qr-contact-copy" style={{ lineHeight: 1.7, fontSize: "1.05rem", color: "#374151", marginBottom: "70px" }}>
                 We stay in constant communication with our customers until the job is done. To get a
                 free quote, or if you have questions or special requests, just drop us a line.
               </p>
@@ -966,7 +1060,7 @@ export default function Home() {
                 560038
               </p>
 
-              <div style={{ marginTop: "28px", maxWidth: "520px", display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div className="qr-contact-details" style={{ marginTop: "28px", maxWidth: "520px", display: "flex", flexDirection: "column", gap: "12px" }}>
                 <details
                   style={{
                     padding: 0,
@@ -1123,6 +1217,7 @@ export default function Home() {
 function ServiceCard({ title, image, onSelect }) {
   return (
     <button
+      className="qr-service-card-button"
       type="button"
       onClick={onSelect}
       style={{
@@ -1145,35 +1240,40 @@ function ServiceCard({ title, image, onSelect }) {
           background: "#fff",
           textAlign: "center",
           height: "100%",
+          minHeight: "clamp(250px, 24vw, 340px)",
           minWidth: 0,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          padding: "clamp(14px, 2vw, 20px)",
+          justifyContent: "flex-start",
+          gap: "clamp(12px, 1.8vw, 18px)",
+          padding: "clamp(20px, 2.6vw, 32px)",
         }}
       >
         <div
+          className="qr-service-card-image"
           style={{
             position: "relative",
             width: "100%",
-            maxWidth: "clamp(84px, 12vw, 150px)",
+            maxWidth: "clamp(104px, 14vw, 172px)",
             aspectRatio: "1 / 1",
-            marginBottom: "14px",
+            marginBottom: "clamp(4px, 1vw, 10px)",
           }}
         >
           <Image
             src={image}
             alt={title}
             fill
-            sizes="(max-width: 480px) 84px, (max-width: 900px) 110px, 150px"
+            sizes="(max-width: 480px) 104px, (max-width: 900px) 132px, 172px"
             style={{ objectFit: "contain" }}
           />
         </div>
 
         <h3
+          className="qr-service-card-title"
           style={{
             marginTop: 0,
-            marginBottom: "8px",
+            marginBottom: 0,
             lineHeight: 1.3,
             fontSize: "clamp(1rem, 2.1vw, 1.1rem)",
           }}
@@ -1181,9 +1281,11 @@ function ServiceCard({ title, image, onSelect }) {
           {title}
         </h3>
         <p
+          className="qr-service-card-cta"
           style={{
             color: "#09B7A1",
             fontWeight: "bold",
+            marginTop: "auto",
             marginBottom: 0,
             fontSize: "clamp(0.95rem, 1.8vw, 1rem)",
           }}
@@ -1320,6 +1422,20 @@ function TestimonialCard({ testimonial }) {
         display: "flex",
         flexDirection: "column",
         gap: "18px",
+        cursor: "pointer",
+        transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease",
+      }}
+      onMouseEnter={(event) => {
+        event.currentTarget.style.transform = "translateY(-6px)";
+        event.currentTarget.style.boxShadow = "0 18px 34px rgba(15, 23, 42, 0.14)";
+        event.currentTarget.style.borderColor = "#9fd9d2";
+        event.currentTarget.style.background = "#f8fafc";
+      }}
+      onMouseLeave={(event) => {
+        event.currentTarget.style.transform = "translateY(0)";
+        event.currentTarget.style.boxShadow = "none";
+        event.currentTarget.style.borderColor = "#d1d5db";
+        event.currentTarget.style.background = "#f3f4f6";
       }}
     >
       <div
@@ -1396,6 +1512,7 @@ function TestimonialCard({ testimonial }) {
           flexDirection: "column",
           alignItems: "flex-start",
           gap: "18px",
+          transition: "border-color 0.2s ease, box-shadow 0.2s ease",
         }}
       >
         <p
