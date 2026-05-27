@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight, Menu, PhoneCall, X } from "lucide-react";
 
 const slides = [
@@ -122,6 +123,7 @@ const projectGallery = [
 
 const galleryPageSize = 8;
 const galleryRotationStep = 6;
+const detailedFaqHref = "/faq";
 
 const faqs = [
   {
@@ -598,7 +600,7 @@ export default function Home() {
                             ? "Testimonials"
                             : sectionId === "gallery"
                               ? "Project Gallery"
-                              : "Contact"}
+                      : "Contact"}
                   </button>
                 ))}
               </nav>
@@ -1090,6 +1092,25 @@ export default function Home() {
                         <p style={{ margin: "6px 0 0", color: "#4b5563", lineHeight: 1.7 }}>{faq.answer}</p>
                       </div>
                     ))}
+                    <Link
+                      href={detailedFaqHref}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "fit-content",
+                        minHeight: "42px",
+                        padding: "0 18px",
+                        borderRadius: "999px",
+                        background: "linear-gradient(135deg, rgba(47, 195, 173, 0.78) 0%, rgba(23, 106, 114, 0.78) 100%)",
+                        color: "#ffffff",
+                        fontWeight: 800,
+                        textDecoration: "none",
+                        boxShadow: "0 10px 22px rgba(23, 106, 114, 0.16)",
+                      }}
+                      >
+                        Help Center
+                      </Link>
                   </div>
                 </details>
 
